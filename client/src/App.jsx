@@ -1,27 +1,23 @@
-import { useState, useContext } from 'react'
-import MainMenu from './Components/MainMenu'
-import Questions from './Components/Quiz'
-import Selection from './Components/Selection'
+import { useState } from 'react';
 import { QuizContext } from './Helpers/Contexts';
-
-import './App.css'
+import MainMenu from './components/MainMenu';
+import Quiz from './components/Quiz';
+import Selection from './components/Selection';
+import './App.css';
 
 function App() {
-  const [gameState, setGameState] = useState("menu");
-  const [score, setScore] = useState(0);
-
-  return (
-    <>
-      <div className="App">
-        <h1>Pokemon Adoption Agency</h1>
-        <QuizContext.Provider value={{ gameState, setGameState, score, setScore }}>
+    const [gameState, setGameState] = useState("menu");
+    const [score, setScore] = useState(0);
+    const [name, setName] = useState(""); 
+    return (
+      <QuizContext.Provider value={{ gameState, setGameState, score, setScore, name, setName }}>
+        <div className="App">
           {gameState === "menu" && <MainMenu />}
-          {gameState === "questions" && <Questions />}
+          {gameState === "questions" && <Quiz />}
           {gameState === "selection" && <Selection />}
-        </QuizContext.Provider>
-      </div>
-    </>
-  )
+        </div>
+      </QuizContext.Provider>
+    );
 }
 
-export default App
+export default App;
