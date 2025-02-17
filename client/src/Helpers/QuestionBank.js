@@ -5,7 +5,7 @@ export const QuestionBank = [
         optionB: "answer",
         optionC: "test",
         optionD: "test",
-        answer: "answer"
+        answer: "B"
     },
     {
         prompt: "Question 2, what is your favorite color?",
@@ -13,7 +13,7 @@ export const QuestionBank = [
         optionB: "test",
         optionC: "test",
         optionD: "test",
-        answer: "answer"
+        answer: "A"
     },
     {
         prompt: "Question 3, which one describes you best?",
@@ -21,6 +21,6 @@ export const QuestionBank = [
         optionB: "test",
         optionC: "test",
         optionD: "answer",
-        answer: "answer"
+        answer: "D"
     }
 ]

@@ -1,17 +1,23 @@
 import {useContext} from 'react'
 import { QuizContext } from '../Helpers/Contexts';
+import { QuestionBank } from '../Helpers/QuestionBank';
 import '../App.css' // or menu specific css?
 
 
 export default function Selection() {
-    const {gameState, setGameState } = useContext(QuizContext);
+    const { score, setScore, setGameState } = useContext(QuizContext);
+
+    const restartQuiz = () => {
+        setScore(0);
+        setGameState("menu");
+    }
 
   return (
     <>
       <div className="Selection">
-        <h1>Game State: {gameState}</h1>
-
-        <button onClick={() => {setGameState("menu")}}>ok</button>
+        <h1>Selection</h1>
+        <h3>{score} / {QuestionBank.length} </h3>
+        <button onClick={restartQuiz}>Restart Quiz</button>
 
       </div>
     </>

@@ -1,5 +1,5 @@
 import { useState, useContext} from 'react'
-import { QuestionBank } from '../Helpers/QuestionBank'
+import { QuestionBank } from '../Helpers/QuestionBank';
 import { QuizContext } from '../Helpers/Contexts';
 import '../App.css' // or menu specific css?
 
@@ -10,12 +10,12 @@ export default function Quiz() {
     const [optionChosen, setOptionChosen] = useState("");
 
     const nextQuestion = () => {
+      console.log("answer: ", QuestionBank[currQuestion].answer );
+      console.log("option: ", optionChosen );
       if (QuestionBank[currQuestion].answer === optionChosen) {
-        console.log("answer: ", QuestionBank[currQuestion].answer );
-        console.log("option: ", optionChosen );
         setScore(score + 1);
       }
-      setCurrQuestion(currQuestion + 1)
+      setCurrQuestion(currQuestion + 1);
     }
 
     const finishQuiz = () => {
