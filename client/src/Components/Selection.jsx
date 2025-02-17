@@ -9,7 +9,7 @@ export default function Selection() {
   return (
     <>
       <div className="Selection">
-        <h1>Selection</h1>
+        <h1>Game State: {gameState}</h1>
 
         <button onClick={() => {setGameState("menu")}}>ok</button>
 
