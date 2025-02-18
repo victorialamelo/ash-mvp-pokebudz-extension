@@ -14,9 +14,10 @@ function App() {
       buddyType: "",
       habitat: ""
     })
+    const [zodiac,setZodiac] = useState("");
 
     return (
-      <QuizContext.Provider value={{ gameState, setGameState, name, setName, answers, setAnswers }}>
+      <QuizContext.Provider value={{ gameState, setGameState, name, setName, answers, setAnswers, zodiac, setZodiac }}>
         <div className="App">
           {gameState === "menu" && <MainMenu />}
           {gameState === "questions" && <Quiz />}
