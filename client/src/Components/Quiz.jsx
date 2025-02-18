@@ -5,24 +5,42 @@ import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
 
 export default function Quiz() {
-    const { score, setScore, setGameState, name } = useContext(QuizContext); // Get name here
+    const { setGameState, name, setAnswers, answers } = useContext(QuizContext); // Get name here
     const [currQuestion, setCurrQuestion] = useState(0);
     const [optionChosen, setOptionChosen] = useState("");
 
+
     const nextQuestion = () => {
-      console.log("answer: ", QuestionBank[currQuestion].answer);
-      console.log("option: ", optionChosen);
-      if (QuestionBank[currQuestion].answer === optionChosen) {
-        setScore(score + 1);
+      // get the key from the Question Bank birthday/personality/buddyType/habitat
+      const key = QuestionBank[currQuestion].key;
+
+      // if its the birthday question update the birthday state
+      if (key === "birthday") {
+        setAnswers(ans => ({...ans, birthday: optionChosen}));
       }
+      // else use update the key with the answer
+      else {
+        setAnswers(ans => ({...ans, [key]: optionChosen}));
+      }
+
+      // after storing the answer go to the next question
       setCurrQuestion(currQuestion + 1);
+      setOptionChosen("");
     };
 
     const finishQuiz = () => {
-      if (QuestionBank[currQuestion].answer === optionChosen) {
-        setScore(score + 1);
-      }
-      setGameState("selection");
+      const key = QuestionBank[currQuestion].key;
+      // this makes sure the final question is saved
+      setAnswers(ans => ({...ans, [key]: optionChosen}));
+
+      console.log("Final Answers:", answers)
+      // change the game state to final results
+      setGameState("result");
+    };
+
+    const handleChange = (event) => {
+      event.preventDefault();
+      setOptionChosen(event.target.value);
     };
 
     const greetings = [
@@ -30,38 +48,55 @@ export default function Quiz() {
       `${name}, ${name}, ${name} has a nice ring to it. I hope you’re ready. This is serious business.`,
       `Ooooh, ${name}, I have a good feeling about this one!`
     ];
-    const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
 
+    const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
 
     return (
       <>
         <div className="Questions">
-
+          <h1>{`${name}'s Pokebuds Application`}</h1>
           <div className="dialogue">
             <ReactTyped
+                key={randomGreeting}
                 startWhenVisible
                 typeSpeed={40}
                 backSpeed={0}
                 loop={false}
                 showCursor={false}
                 strings={[
-                    `<p> ${randomGreeting} Now, to find your perfect Pokébud, I just need to ask a few crucial, highly scientific, not-at-all-made-up questions. You ready?</p>`
+                    `<p> ${randomGreeting}</p> <p>Now, to find your perfect Pokébud, I just need to ask a few crucial, highly scientific questions. <p>You ready?</p>`
                 ]}
             />
           </div>
-          <h2>{QuestionBank[currQuestion].prompt}</h2>
-          <div className="options">
-            <button onClick={() => setOptionChosen("A")}>{QuestionBank[currQuestion].optionA}</button>
-            <button onClick={() => setOptionChosen("B")}>{QuestionBank[currQuestion].optionB}</button>
-            <button onClick={() => setOptionChosen("C")}>{QuestionBank[currQuestion].optionC}</button>
-            <button onClick={() => setOptionChosen("D")}>{QuestionBank[currQuestion].optionD}</button>
+
+          <h2>
+            {typeof QuestionBank[currQuestion].prompt === "function"
+              ? QuestionBank[currQuestion].prompt(name)
+              : QuestionBank[currQuestion].prompt}
+          </h2>
+
+          {QuestionBank[currQuestion].key === "birthday" ? (
+            <input type="date" value={optionChosen} onChange={handleChange} />
+          ) : (
+            <div className="options">
+            {QuestionBank[currQuestion].options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => setOptionChosen(option)}
+                className={optionChosen === option ? "selected" : ""}
+              >
+                {option}
+              </button>
+            ))}
           </div>
-          <h3>You chose {optionChosen}</h3>
-          <h3>Score: {score}</h3>
+          )}
+
+          <h2>ok you picked: {optionChosen}</h2>
+
           {currQuestion === QuestionBank.length - 1 ? (
             <button onClick={finishQuiz}>Finish Quiz</button>
           ) : (
-            <button onClick={nextQuestion}>Next Question</button>
+            <button onClick={nextQuestion} disabled={!optionChosen}>Next Question</button>
           )}
         </div>
       </>

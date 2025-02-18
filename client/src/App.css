@@ -5,29 +5,45 @@
   font-style: normal;
 }
 
+h1 {
+  margin: 10px 20px;
+  font-size: 1.5rem;
+  color: white;
+}
+
+h2 {
+  font-size: 16px;
+  color: white;
+}
 
 .App {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-image: url(./assets/Computer.png);
-  background-repeat: no-repeat;
 }
 
-.Menu, .Selection, .Questions {
+.Menu, .Result, .Questions {
+  border: 8px solid rgba(255, 47, 0, 0.854);
   max-width: 900px;
-  min-width: 450px;
+  min-width: 350px;
   height: 900px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   padding: 40px;
   align-items: center;
+  background-color: rgba(255, 47, 0, 0.854);
+}
+
+.skip {
+  width: 80px;
+  background-color: rgb(21, 250, 51);
+  height: 40px;
 }
 
 button {
-  width: 500px;
+  width: 300px;
   height: 50px;
   margin: 5px auto;
   border: none;
@@ -35,7 +51,7 @@ button {
   font-size: 15px;
   cursor: pointer;
   font-family: "Press Start 2P", serif;
-  background-color: rgb(228, 187, 24);
+  background-color: rgb(255, 255, 0);
   font-weight: 200;
   font-style: normal;
   clip-path: polygon(
@@ -73,32 +89,29 @@ form {
   align-items: center;
 }
 
-h1 {
-  margin: 10px 20px;
-  font-size: 1.5rem
-}
+
 
 .dialogue {
-  height: auto;
+  height: 500px;
   margin: 40px;
   padding: 30px;
-  border: 4px dashed black;
+  border: 8px dashed rgba(65, 180, 153, 0.86);
   border-radius: 5px;
-  background-color: rgba(28, 212, 37, 0.503);
+  background-color: rgba(95, 246, 210, 0.86);
   word-wrap: break-word;
   overflow-wrap: break-word;
   text-align: left;
   width: 600px;
   line-height: 30px;
   font-size: 14px;
+  color: rgba(7, 52, 41, 0.86);
 }
 
 input {
   width: 100%;
-  height: 50px;
+  height: 55px;
   padding: 10px;
   font-size: 1rem;
-  border: 4px solid black;
-  border-radius: 5px;
-
+  border: 5px solid black;
+  border-radius: 9px;
 }
