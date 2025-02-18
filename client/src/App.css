@@ -23,7 +23,7 @@ h2 {
   flex-direction: column;
 }
 
-.Menu, .Result, .Questions {
+.Menu, .Result, .Questions, .Matches {
   border: 8px solid rgba(255, 47, 0, 0.854);
   max-width: 900px;
   min-width: 350px;

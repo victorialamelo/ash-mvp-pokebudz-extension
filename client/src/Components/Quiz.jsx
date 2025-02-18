@@ -11,7 +11,7 @@ export default function Quiz() {
 
 
     const nextQuestion = () => {
-      // get the key from the Question Bank birthday/personality/buddyType/habitat
+      // get the key from the Question Bank
       const key = QuestionBank[currQuestion].key;
 
       // if its the birthday question update the birthday state

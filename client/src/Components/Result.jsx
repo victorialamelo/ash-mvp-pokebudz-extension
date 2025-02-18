@@ -1,47 +1,53 @@
 import { useContext, useEffect, useState } from 'react';
 import { ReactTyped } from "react-typed";
 import { QuizContext } from '../Helpers/Contexts';
-import { Zodiac } from '../Helpers/Zodiac';
+import { getZodiacData } from '../Helpers/Zodiac';
 import '../App.css' // or menu specific css?
 
 
 export default function Result() {
   const { name, answers,  setGameState, zodiac, setZodiac } = useContext(QuizContext);
+  const [zodiacDescription, setZodiacDescription] = useState("");
 
-  const restartQuiz = () => {
-      setGameState("menu");
-  }
 
   useEffect(() => {
-    // Zodiac sign calculation logic based on birthday
+    if (!answers.birthday) return; 
+
     const bday = new Date(answers.birthday);
-    const zodiacDay = bday.getDate();
-    let zodiacMonth = bday.getMonth(); // Month is zero-indexed (0 = January, 11 = December)
+    const month = bday.getMonth() + 1; // Months are 0-indexed
+    const day = bday.getDate();
+
     const zodiacSigns = [
-      "Aquarius", "Pisces", "Aries", "Taurus", "Gemini", "Cancer",
-      "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn"
+      { sign: "Capricorn", start: [12, 22], end: [1, 19] },
+      { sign: "Aquarius", start: [1, 20], end: [2, 18] },
+      { sign: "Pisces", start: [2, 19], end: [3, 20] },
+      { sign: "Aries", start: [3, 21], end: [4, 19] },
+      { sign: "Taurus", start: [4, 20], end: [5, 20] },
+      { sign: "Gemini", start: [5, 21], end: [6, 20] },
+      { sign: "Cancer", start: [6, 21], end: [7, 22] },
+      { sign: "Leo", start: [7, 23], end: [8, 22] },
+      { sign: "Virgo", start: [8, 23], end: [9, 22] },
+      { sign: "Libra", start: [9, 23], end: [10, 22] },
+      { sign: "Scorpio", start: [10, 23], end: [11, 21] },
+      { sign: "Sagittarius", start: [11, 22], end: [12, 21] }
     ];
 
-    // Zodiac calculation logic
-    if ((zodiacMonth === 0 && zodiacDay <= 20) || (zodiacMonth === 11 && zodiacDay >= 22)) {
-      zodiacMonth = 11; // Capricorn (December 22–January 19)
-    } else if (zodiacMonth === 0 && zodiacDay > 20) {
-      zodiacMonth = 1; // Aquarius (January 20–February 18)
-    } else if (zodiacMonth === 1 && zodiacDay <= 18) {
-      zodiacMonth = 1; // Pisces
-    } else if (zodiacMonth === 1 && zodiacDay > 18) {
-      zodiacMonth = 2; // Aries
-    } else if (zodiacMonth === 2 && zodiacDay <= 20) {
-      zodiacMonth = 2; // Aries
-    } else if (zodiacMonth === 2 && zodiacDay > 20) {
-      zodiacMonth = 3; // Taurus
-    }
-    // Continue this pattern for the rest of the zodiac signs...
+    const foundSign = zodiacSigns.find(({ start, end }) =>
+      (month === start[0] && day >= start[1]) || (month === end[0] && day <= end[1])
+    );
 
-    // Set the zodiac sign in context
-    setZodiac(zodiacSigns[zodiacMonth]);
+    if (foundSign) {
+      setZodiac(foundSign.sign);
+    }
 
   }, [answers.birthday, setZodiac]);
+
+  useEffect(() => {
+    if (zodiac) {
+      const { description } = getZodiacData(zodiac) || { description: "Unknown sign" };
+      setZodiacDescription(description);
+    }
+  }, [zodiac]);
 
   return (
     <>
@@ -59,13 +65,15 @@ export default function Result() {
                   <p><strong>Birthday:</strong> ${answers.birthday}</p>
 
                   <p>Wow, you're a ${zodiac}!</p>
-                  <p><strong>Personality:</strong> ${answers.personality}</p>
-                  <p><strong>Habitat:</strong> ${answers.habitat}</p>`
+                  <p>${zodiacDescription}</p>
+                  <p><strong>Personality:</strong> ${answers.shape}</p>
+                  <p><strong>Habitat:</strong> ${answers.habitat}</p>
+                  <p><strong>Approach:</strong> ${answers.type2}</p>`
                 ]}
             />
 
         </div>
-        <button onClick={restartQuiz}>Restart Quiz</button>
+        <button onClick={() => setGameState("matches")}>Find my Bud!</button>
 
       </div>
     </>

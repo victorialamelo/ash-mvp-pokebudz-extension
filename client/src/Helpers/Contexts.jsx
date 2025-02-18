@@ -6,11 +6,14 @@ export const QuizContext = createContext({
   name: "",
   setName: () => {},
   answers: {
+    ability: "",
     birthday: "",
-    personality: "",
     habitat: "",
+    shape: ""
   },
   setAnswers: () => {},
   zodiac: "",
-  setZodiac: () => {}
+  setZodiac: () => {},
+  matches: [],
+  setMatches: () => {}
 });

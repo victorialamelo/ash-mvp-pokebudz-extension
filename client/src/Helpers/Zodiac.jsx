@@ -1,51 +1,51 @@
 export const zodiacData = {
     Aquarius: {
-      description: "You're an Aquarius! Known for being independent, inventive, and humanitarian.",
-      pokemonType: "Water",
+      description: "You're known for being independent, inventive, and humanitarian.",
+      pokemonType: "Ice",
     },
     Pisces: {
-      description: "You're a Pisces! Intuitive, empathetic, and compassionate, you care deeply for others.",
+      description: "You're intuitive, empathetic, and compassionate, you care deeply for others.",
       pokemonType: "Water",
     },
     Aries: {
-      description: "You're an Aries! Brave, energetic, and a natural leader.",
-      pokemonType: "Fire",
+      description: "You're brave, energetic, and a natural leader.",
+      pokemonType: "Fighting",
     },
     Taurus: {
-      description: "You're a Taurus! Practical, determined, and loyal.",
-      pokemonType: "Ground",
+      description: "You're practical, determined, and loyal.",
+      pokemonType: "Grass", 
     },
     Gemini: {
-      description: "You're a Gemini! Adaptable, curious, and expressive.",
+      description: "You're adaptable, curious, and expressive.",
       pokemonType: "Electric",
     },
     Cancer: {
-      description: "You're a Cancer! Sensitive, nurturing, and protective.",
+      description: "You're sensitive, nurturing, and protective.",
       pokemonType: "Water",
     },
     Leo: {
-      description: "You're a Leo! Bold, confident, and a natural-born leader.",
+      description: "You're bold, confident, and a natural-born leader.",
       pokemonType: "Fire",
     },
     Virgo: {
-      description: "You're a Virgo! Detail-oriented, hardworking, and methodical.",
-      pokemonType: "Grass",
+      description: "You're detail-oriented, hardworking, and methodical.",
+      pokemonType: "Psychic",
     },
     Libra: {
-      description: "You're a Libra! Charming, social, and diplomatic.",
+      description: "You're charming, social, and diplomatic.",
       pokemonType: "Fairy",
     },
     Scorpio: {
-      description: "You're a Scorpio! Passionate, resourceful, and determined.",
-      pokemonType: "Poison",
+      description: "You're passionate, resourceful, and determined.",
+      pokemonType: "Dark",
     },
     Sagittarius: {
-      description: "You're a Sagittarius! Optimistic, adventurous, and always seeking truth.",
-      pokemonType: "Fire",
+      description: "You're optimistic, adventurous, and always seeking truth.",
+      pokemonType: "Flying",
     },
     Capricorn: {
-      description: "You're a Capricorn! Practical, disciplined, and goal-oriented.",
-      pokemonType: "Ground",
+      description: "You're practical, disciplined, and goal-oriented.",
+      pokemonType: "Steel",
     },
   };
 

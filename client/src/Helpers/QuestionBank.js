@@ -1,23 +1,28 @@
 export const QuestionBank = [
     {
-        prompt: (name) => `ok ${name}, when is your birthday?`,
-        type: "text",
-        key: "birthday"
-    },
-    {
-        prompt: (name) => `Question 2, tell me, ${name} — how would your friends describe you?`,
+        prompt: (name) => `${name} — How would you describe your approach to life?`,
         type: "multiple-choice",
-        key: "personality",
+        key: "type2",
         options: [
-            "Loud and dramatic (main character energy)",
-            "Chill but secretly judging everyone",
-            "Mysterious and deep (or just sleepy)",
-            "Energetic and fun (a little too fun…)",
-            "Smart, fast, and always ahead of the game"
+            "I rise above challenges",
+            "I keep things simple and balanced",
+            "I value independence & reflection",
+            "I challenge the norms and stir things up"
         ]
     },
     {
         prompt: (name) => `ooh, okay okay well ${name} — how would your friends describe you?`,
+        type: "multiple-choice",
+        key: "shape",
+        options: [
+            "Cute & Cuddly",
+            "Strong & Fierce",
+            "Mysterioso/a/x",
+            "Weird and Silly"
+        ]
+    },
+    {
+        prompt: (name) => `excellent ${name} — where do you feel most at home or love to explore?`,
         type: "multiple-choice",
         key: "habitat",
         options: [
@@ -26,5 +31,10 @@ export const QuestionBank = [
             "Ocean",
             "City"
         ]
+    },
+    {
+        prompt: (name) => `ok & finally here's an easy one ${name}, when is your birthday?`,
+        type: "text",
+        key: "birthday"
     }
 ];
