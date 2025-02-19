@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { ReactTyped } from "react-typed";
 import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
@@ -11,6 +11,7 @@ export default function Matches() {
     const type = matchingCriteria.pokemonType;
     const zType = matchingCriteria.zodiacType;
 
+    
     return (
       <>
         <div className="Matches">

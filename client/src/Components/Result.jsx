@@ -6,7 +6,7 @@ import '../App.css'
 
 
 export default function Result() {
-  const { setGameState, name, answers, setMatchingCriteria, matchingCriteria } = useContext(QuizContext);
+  const { setGameState, name, answers, setMatchingCriteria } = useContext(QuizContext);
   const [zodiac, setZodiac] = useState("");
   const [zodiacDescription, setZodiacDescription] = useState("");
 

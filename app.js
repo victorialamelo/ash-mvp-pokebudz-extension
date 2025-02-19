@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index'); // res.send({ title: 'Express' });
 var usersRouter = require('./routes/users');
+var pokemonRoutes = require ('./routes/pokemon.js');
 
 var app = express();
 
@@ -18,5 +19,6 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api', pokemonRoutes);
 
 module.exports = app;
