@@ -51,13 +51,27 @@ export default function Result() {
         zodiacType: pokemonType
       }));
     }
-  }, [zodiac]);
+  }, [zodiac, setMatchingCriteria]);
 
   return (
     <>
         <div className="Result">
           <h1>{`${name}'s Pokebud Results`}</h1>
           <div className="dialogue">
+            {/* The zodiacDescription is glitchy when loading, its fighting with the next line Personality */}
+            <ReactTyped
+                startWhenVisible
+                onComplete
+                typeSpeed={0}
+                backSpeed={0}
+                loop={false}
+                showCursor={false}
+                strings={[
+                  `<h3>Results for ${name}!</h3>
+                  <p><strong>Birthday:</strong> ${answers.birthday}</p>
+                  <p>Wow, you're a ${zodiac}!</p><p>${zodiacDescription}</p>`
+                ]}
+            />
             <ReactTyped
                 startWhenVisible
                 typeSpeed={40}
@@ -65,11 +79,9 @@ export default function Result() {
                 loop={false}
                 showCursor={false}
                 strings={[
-                  `<h3>Results for ${name}!</h3>
-                  <p><strong>Birthday:</strong> ${answers.birthday}</p><p>Wow, you're a ${zodiac}!</p><p>${zodiacDescription}</p>
-                  <p><strong>Personality:</strong> ${answers.shape}</p>
+                  `<p><strong>Personality:</strong> ${answers.shape}</p>
                   <p><strong>Habitat:</strong> ${answers.habitat}</p>
-                  <p><strong>Approach:</strong> ${answers.type2}</p>`
+                  <p><srong>Approach:</strong> ${answers.type2}</p>`
                 ]}
             />
 

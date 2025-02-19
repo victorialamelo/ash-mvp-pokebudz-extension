@@ -19,7 +19,7 @@ export default function MainMenu() {
 
     const handleSkip = () => {
       setSkip(!skip);
-      console.log("what is skip?", skip);
+
     }
 
     return (
@@ -36,13 +36,15 @@ export default function MainMenu() {
           (
             <ReactTyped
                   startWhenVisible
+                  onComplete
                   typeSpeed={40}
                   backSpeed={0}
                   loop={false}
                   showCursor={false}
                   strings={["<p>Oh, hey there—wow, you’re really here. Welcome to the Adopt-a-Pokebud Agency, where we match you with your ideal best bud… assuming, of course, that you’re worthy.</p><p>No pressure.</p><p>Anyway, my name’s Ysabella. What’s your name?</p>"]}
               />)
-          }
+
+            }
 
           </div>
           <button className="skip" onClick={handleSkip}>skip</button>

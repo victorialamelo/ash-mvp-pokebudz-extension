@@ -5,7 +5,7 @@ import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
 
 export default function Quiz() {
-    const { setGameState, name, setAnswers, answers, setMatchingCriteria } = useContext(QuizContext);
+    const { setGameState, name, setAnswers, setMatchingCriteria } = useContext(QuizContext);
     const [currQuestion, setCurrQuestion] = useState(0);
     const [optionChosen, setOptionChosen] = useState("");
 

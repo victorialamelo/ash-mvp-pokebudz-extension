@@ -50,7 +50,7 @@ export default function Matches() {
         setLoading(false);
     };
     fetchPokemonMatches();
-}, [habitat, shape, type, zType, setMatches]);
+}, [habitat, shape, type, zType, setMatches, matches.length]);
 
     return (
       <>
@@ -60,6 +60,7 @@ export default function Matches() {
             <p>{ loading ? "please wait loading results" : null }</p>
             <ReactTyped
                 startWhenVisible
+                onComplete
                 typeSpeed={0}
                 backSpeed={0}
                 loop={false}
