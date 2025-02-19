@@ -6,8 +6,14 @@ const fetchPokemonFromHabitat = async (habitat) => {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon-habitat/${habitat}`);
         const data = await response.json();
-        const firstThreePokemon = data.pokemon_species.slice(0, 3).map(pokemon => pokemon.name);
-        return firstThreePokemon;
+
+        if (!response.ok) {
+            throw new Error(`$response.status`, "response is not ok dude")
+        }
+
+        const pokemonList = data.pokemon_species.slice(0, 3).map(pokemon => pokemon.name);
+        const randomPokemon = pokemonList[Math.floor(Math.random() * pokemonList.length)];
+        return randomPokemon
     } catch (error) {
         console.error('Error fetching habitat data:', error);
         throw error;
@@ -19,8 +25,14 @@ const fetchPokemonFromShape= async (shape) => {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon-shape/${shape}`);
         const data = await response.json();
-        const firstThreePokemon = data.pokemon_species.slice(0, 3).map(pokemon => pokemon.name);
-        return firstThreePokemon;
+
+        if (!response.ok) {
+            throw new Error(`$response.status`, "response is not ok dude")
+        }
+
+        const pokemonList = data.pokemon_species.slice(0, 3).map(pokemon => pokemon.name);
+        const randomPokemon = pokemonList[Math.floor(Math.random() * pokemonList.length)];
+        return randomPokemon
     } catch (error) {
         console.error('Error fetching shape data:', error);
         throw error;
@@ -32,8 +44,14 @@ const fetchPokemonFromType= async (type) => {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
         const data = await response.json();
-        const firstThreePokemon = data.pokemon.slice(0, 3).map(p => p.pokemon.name); // different its not pokemon_species
-        return firstThreePokemon;
+
+        if (!response.ok) {
+            throw new Error(`$response.status`, "response is not ok dude")
+        }
+
+        const pokemonList = data.pokemon.slice(0, 3).map(p => p.pokemon.name); // different its not pokemon_species
+        const randomPokemon = pokemonList[Math.floor(Math.random() * pokemonList.length)];
+        return randomPokemon;
     } catch (error) {
         console.error('Error fetching types data:', error);
         throw error;
@@ -45,6 +63,11 @@ const fetchPokemonDetails = async (name) => {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
         const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`$response.status`, "response is not ok dude")
+        }
+
         return {
             name: data.name,
             id: data.id,
@@ -57,7 +80,7 @@ const fetchPokemonDetails = async (name) => {
 }
 
 // H A B I T A T router ============================
-router.get('/pokemon-habitat', async (req, res) => {
+router.get('/pokemon-habitat/:habitat', async (req, res) => {
     try {
         const { habitat } = req.params;
         if (!habitat) return res.status(400).send({ message: 'Habitat is required' });
@@ -70,7 +93,7 @@ router.get('/pokemon-habitat', async (req, res) => {
 });
 
 // S H A P E S router ============================
-router.get('/pokemon-shape', async (req, res) => {
+router.get('/pokemon-shape/:shape', async (req, res) => {
     try {
         const { shape } = req.params;
         if (!shape) return res.status(400).send({ message: 'Shape is required' });
@@ -83,7 +106,7 @@ router.get('/pokemon-shape', async (req, res) => {
 });
 
 // T Y P E S router ==============================
-router.get('/pokemon-type', async (req, res) => {
+router.get('/pokemon-type/:type', async (req, res) => {
     try {
       const { type } = req.params;
       if (!type) return res.status(400).send({ message: 'Type is required' });
@@ -96,11 +119,11 @@ router.get('/pokemon-type', async (req, res) => {
   });
 
 // D E T A I L S router ============================
-router.get('/pokemon-details', async (req, res) => {
+router.get('/pokemon-details/:name', async (req, res) => {
     try {
       const { name } = req.params;
       if (!name) return res.status(400).send({ message: 'Name is required' })
-      const details = await fetchPokemonDetails();
+      const details = await fetchPokemonDetails(name);
       res.json(details);
       console.log(details)
     } catch (error) {

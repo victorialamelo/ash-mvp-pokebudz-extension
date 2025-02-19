@@ -45,8 +45,6 @@ export default function Quiz() {
         }));
       }
 
-      console.log("Final Answers:", answers)
-      // change the game state to final results
       setGameState("result");
     };
 
