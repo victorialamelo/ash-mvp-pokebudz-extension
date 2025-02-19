@@ -5,7 +5,7 @@ import '../App.css';
 
 
 export default function Matches() {
-    const { name, matchingCriteria, matches, setMatches } = useContext(QuizContext);
+    const { name, matchingCriteria, matches, setMatches, setGameState } = useContext(QuizContext);
     const habitat = matchingCriteria.pokemonHabitat;
     const shape = matchingCriteria.pokemonShape;
     const type = matchingCriteria.pokemonType;
@@ -83,6 +83,7 @@ export default function Matches() {
               </div>
             ))}
           </div>
+          <button onClick={() => setGameState("result")}>back</button>
           </div>
         </div>
       </>

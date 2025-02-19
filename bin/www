@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('my-express-app:server');
+var debug = require('debug')('POKEBUDZ:server');
 var http = require('http');
 
 /**

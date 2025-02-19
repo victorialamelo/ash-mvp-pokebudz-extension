@@ -58,34 +58,27 @@ export default function Result() {
         <div className="Result">
           <h1>{`${name}'s Pokebud Results`}</h1>
           <div className="dialogue">
-            {/* The zodiacDescription is glitchy when loading, its fighting with the next line Personality */}
-            <ReactTyped
+          {
+            zodiacDescription && (
+              <ReactTyped
                 startWhenVisible
-                onComplete
-                typeSpeed={0}
+                typeSpeed={0} // Slow down typing for better readability
                 backSpeed={0}
                 loop={false}
                 showCursor={false}
                 strings={[
                   `<h3>Results for ${name}!</h3>
                   <p><strong>Birthday:</strong> ${answers.birthday}</p>
-                  <p>Wow, you're a ${zodiac}!</p><p>${zodiacDescription}</p>`
-                ]}
-            />
-            <ReactTyped
-                startWhenVisible
-                typeSpeed={40}
-                backSpeed={0}
-                loop={false}
-                showCursor={false}
-                strings={[
-                  `<p><strong>Personality:</strong> ${answers.shape}</p>
+                  <p>Wow, you're a ${zodiac}!</p><p>${zodiacDescription}</p>
+                  <p><strong>Personality:</strong> ${answers.shape}</p>
                   <p><strong>Habitat:</strong> ${answers.habitat}</p>
                   <p><srong>Approach:</strong> ${answers.type2}</p>`
                 ]}
-            />
-
+              />
+            )
+          }
         </div>
+        <button onClick={() => setGameState("menu")}>restart quiz</button>
         <button onClick={() => setGameState("matches")}>Find my Bud!</button>
 
       </div>
