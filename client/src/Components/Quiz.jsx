@@ -5,22 +5,27 @@ import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
 
 export default function Quiz() {
-    const { setGameState, name, setAnswers, answers } = useContext(QuizContext); // Get name here
+    const { setGameState, name, setAnswers, answers, setMatchingCriteria } = useContext(QuizContext); // Get name here
     const [currQuestion, setCurrQuestion] = useState(0);
     const [optionChosen, setOptionChosen] = useState("");
 
+    const getRandomElement = (arr) => arr ? arr[Math.floor(Math.random() * arr.length)] : null;
 
     const nextQuestion = () => {
       // get the key from the Question Bank
-      const key = QuestionBank[currQuestion].key;
-
-      // if its the birthday question update the birthday state
-      if (key === "birthday") {
-        setAnswers(ans => ({...ans, birthday: optionChosen}));
-      }
-      // else use update the key with the answer
-      else {
-        setAnswers(ans => ({...ans, [key]: optionChosen}));
+      const currentQ = QuestionBank[currQuestion];
+      console.log("currentQ.options?", QuestionBank[currQuestion].options)
+      const selectedOption = currentQ.options?.find(option => option.answer === optionChosen);
+      console.log("selectionOption", selectedOption);
+      setAnswers(ans => ({...ans, [currentQ]: optionChosen}));
+      console.log("answers", answers)
+      if (selectedOption) {
+        setMatchingCriteria(criteria => ({
+          ...criteria,
+          ...(selectedOption.pokemonType && { pokemonType: getRandomElement(selectedOption.pokemonType) }),
+          ...(selectedOption.pokemonHabitat && { pokemonHabitat: getRandomElement(selectedOption.pokemonHabitat) }),
+          ...(selectedOption.pokemonShape && { pokemonShape: getRandomElement(selectedOption.pokemonShape) })
+        }));
       }
 
       // after storing the answer go to the next question
@@ -30,8 +35,19 @@ export default function Quiz() {
 
     const finishQuiz = () => {
       const key = QuestionBank[currQuestion].key;
+      const selectedOption = key.options?.find(option => option.answer === optionChosen);
+
       // this makes sure the final question is saved
       setAnswers(ans => ({...ans, [key]: optionChosen}));
+
+      if (selectedOption) {
+        setMatchingCriteria(criteria => ({
+          ...criteria,
+          ...(selectedOption.pokemonType && { pokemonType: getRandomElement(selectedOption.pokemonType) }),
+          ...(selectedOption.pokemonHabitat && { pokemonHabitat: getRandomElement(selectedOption.pokemonHabitat) }),
+          ...(selectedOption.pokemonShape && { pokemonShape: getRandomElement(selectedOption.pokemonShape) })
+        }));
+      }
 
       console.log("Final Answers:", answers)
       // change the game state to final results
@@ -49,22 +65,19 @@ export default function Quiz() {
       `Ooooh, ${name}, I have a good feeling about this one!`
     ];
 
-    const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
-
     return (
       <>
         <div className="Questions">
           <h1>{`${name}'s Pokebuds Application`}</h1>
           <div className="dialogue">
             <ReactTyped
-                key={randomGreeting}
                 startWhenVisible
                 typeSpeed={40}
                 backSpeed={0}
                 loop={false}
                 showCursor={false}
                 strings={[
-                    `<p> ${randomGreeting}</p> <p>Now, to find your perfect Pokébud, I just need to ask a few crucial, highly scientific questions. <p>You ready?</p>`
+                    `<p> ${() => getRandomElement(greetings)}</p> <p>Now, to find your perfect Pokébud, I just need to ask a few crucial, highly scientific questions. <p>You ready?</p>`
                 ]}
             />
           </div>
@@ -82,10 +95,10 @@ export default function Quiz() {
             {QuestionBank[currQuestion].options.map((option, index) => (
               <button
                 key={index}
-                onClick={() => setOptionChosen(option)}
-                className={optionChosen === option ? "selected" : ""}
+                onClick={() => setOptionChosen(option.answer)}
+                className={optionChosen === option.answer ? "selected" : ""}
               >
-                {option}
+                {option.answer}
               </button>
             ))}
           </div>

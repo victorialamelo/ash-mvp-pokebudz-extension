@@ -1,51 +1,51 @@
 export const zodiacData = {
     Aquarius: {
       description: "You're known for being independent, inventive, and humanitarian.",
-      pokemonType: "Ice",
+      pokemonType: "ice",
     },
     Pisces: {
       description: "You're intuitive, empathetic, and compassionate, you care deeply for others.",
-      pokemonType: "Water",
+      pokemonType: "water",
     },
     Aries: {
       description: "You're brave, energetic, and a natural leader.",
-      pokemonType: "Fighting",
+      pokemonType: "fighting",
     },
     Taurus: {
       description: "You're practical, determined, and loyal.",
-      pokemonType: "Grass", 
+      pokemonType: "grass",
     },
     Gemini: {
       description: "You're adaptable, curious, and expressive.",
-      pokemonType: "Electric",
+      pokemonType: "electric",
     },
     Cancer: {
       description: "You're sensitive, nurturing, and protective.",
-      pokemonType: "Water",
+      pokemonType: "water",
     },
     Leo: {
       description: "You're bold, confident, and a natural-born leader.",
-      pokemonType: "Fire",
+      pokemonType: "fire",
     },
     Virgo: {
       description: "You're detail-oriented, hardworking, and methodical.",
-      pokemonType: "Psychic",
+      pokemonType: "psychic",
     },
     Libra: {
       description: "You're charming, social, and diplomatic.",
-      pokemonType: "Fairy",
+      pokemonType: "fairy",
     },
     Scorpio: {
       description: "You're passionate, resourceful, and determined.",
-      pokemonType: "Dark",
+      pokemonType: "dark",
     },
     Sagittarius: {
       description: "You're optimistic, adventurous, and always seeking truth.",
-      pokemonType: "Flying",
+      pokemonType: "flying",
     },
     Capricorn: {
       description: "You're practical, disciplined, and goal-oriented.",
-      pokemonType: "Steel",
+      pokemonType: "steel",
     },
   };
 

@@ -9,9 +9,12 @@ import './App.css';
 function App() {
     const [gameState, setGameState] = useState("menu");
     const [name, setName] = useState("");
-    const [answers, setAnswers] = useState();
+    const [answers, setAnswers] = useState({});
     const [zodiac,setZodiac] = useState("");
-    const [matches, setMatches] = useState();
+    const [pokemonType, setPokemonType] = useState("");
+    const [pokemonShape, setPokemonShape] = useState("");
+    const [pokemonHabitat, setPokemonHabitat] = useState("");
+    const [matches, setMatches] = useState([]);
 
     return (
       <QuizContext.Provider value={{
@@ -23,6 +26,12 @@ function App() {
           setAnswers,
           zodiac,
           setZodiac,
+          pokemonType,
+          setPokemonType,
+          pokemonHabitat,
+          setPokemonHabitat,
+          pokemonShape,
+          setPokemonShape,
           matches,
           setMatches
           }}>

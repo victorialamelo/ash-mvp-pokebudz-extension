@@ -6,12 +6,14 @@ import '../App.css' // or menu specific css?
 
 
 export default function Result() {
-  const { name, answers,  setGameState, zodiac, setZodiac } = useContext(QuizContext);
+  const { name, answers,  setGameState, zodiac, setZodiac, matches } = useContext(QuizContext);
   const [zodiacDescription, setZodiacDescription] = useState("");
 
+  console.log("M A T C H E S:", matches)
 
   useEffect(() => {
-    if (!answers.birthday) return; 
+    // Analyzes birthday to zodiac
+    if (!answers.birthday) return;
 
     const bday = new Date(answers.birthday);
     const month = bday.getMonth() + 1; // Months are 0-indexed
@@ -42,6 +44,7 @@ export default function Result() {
 
   }, [answers.birthday, setZodiac]);
 
+  // Passes zodiac to zodiac helper to return a brief zodiac description
   useEffect(() => {
     if (zodiac) {
       const { description } = getZodiacData(zodiac) || { description: "Unknown sign" };
@@ -62,10 +65,7 @@ export default function Result() {
                 showCursor={false}
                 strings={[
                   `<h3>Results for ${name}!</h3>
-                  <p><strong>Birthday:</strong> ${answers.birthday}</p>
-
-                  <p>Wow, you're a ${zodiac}!</p>
-                  <p>${zodiacDescription}</p>
+                  <p><strong>Birthday:</strong> ${answers.birthday}</p><p>Wow, you're a ${zodiac}!</p><p>${zodiacDescription}</p>
                   <p><strong>Personality:</strong> ${answers.shape}</p>
                   <p><strong>Habitat:</strong> ${answers.habitat}</p>
                   <p><strong>Approach:</strong> ${answers.type2}</p>`
