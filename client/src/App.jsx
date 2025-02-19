@@ -11,29 +11,22 @@ function App() {
     const [name, setName] = useState("");
     const [answers, setAnswers] = useState({});
     const [zodiac,setZodiac] = useState("");
-    const [pokemonType, setPokemonType] = useState("");
-    const [pokemonShape, setPokemonShape] = useState("");
-    const [pokemonHabitat, setPokemonHabitat] = useState("");
+    const [matchingCriteria, setMatchingCriteria] = useState({
+      pokemonType: "",
+      pokemonHabitat: "",
+      pokemonShape: "",
+      zodiacType: "",
+    });
     const [matches, setMatches] = useState([]);
 
     return (
       <QuizContext.Provider value={{
-          gameState,
-          setGameState,
-          name,
-          setName,
-          answers,
-          setAnswers,
-          zodiac,
-          setZodiac,
-          pokemonType,
-          setPokemonType,
-          pokemonHabitat,
-          setPokemonHabitat,
-          pokemonShape,
-          setPokemonShape,
-          matches,
-          setMatches
+          gameState, setGameState,
+          name, setName,
+          answers, setAnswers,
+          zodiac, setZodiac,
+          matchingCriteria, setMatchingCriteria,
+          matches, setMatches
           }}>
         <div className="App">
           {gameState === "menu" && <MainMenu />}

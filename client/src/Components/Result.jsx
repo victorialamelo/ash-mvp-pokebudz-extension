@@ -2,14 +2,13 @@ import { useContext, useEffect, useState } from 'react';
 import { ReactTyped } from "react-typed";
 import { QuizContext } from '../Helpers/Contexts';
 import { getZodiacData } from '../Helpers/Zodiac';
-import '../App.css' // or menu specific css?
+import '../App.css'
 
 
 export default function Result() {
-  const { name, answers,  setGameState, zodiac, setZodiac, matches } = useContext(QuizContext);
+  const { setGameState, name, answers, setMatchingCriteria, matchingCriteria } = useContext(QuizContext);
+  const [zodiac, setZodiac] = useState("");
   const [zodiacDescription, setZodiacDescription] = useState("");
-
-  console.log("M A T C H E S:", matches)
 
   useEffect(() => {
     // Analyzes birthday to zodiac
@@ -18,7 +17,6 @@ export default function Result() {
     const bday = new Date(answers.birthday);
     const month = bday.getMonth() + 1; // Months are 0-indexed
     const day = bday.getDate();
-
     const zodiacSigns = [
       { sign: "Capricorn", start: [12, 22], end: [1, 19] },
       { sign: "Aquarius", start: [1, 20], end: [2, 18] },
@@ -33,7 +31,6 @@ export default function Result() {
       { sign: "Scorpio", start: [10, 23], end: [11, 21] },
       { sign: "Sagittarius", start: [11, 22], end: [12, 21] }
     ];
-
     const foundSign = zodiacSigns.find(({ start, end }) =>
       (month === start[0] && day >= start[1]) || (month === end[0] && day <= end[1])
     );
@@ -42,13 +39,17 @@ export default function Result() {
       setZodiac(foundSign.sign);
     }
 
-  }, [answers.birthday, setZodiac]);
+  }, [answers.birthday, setMatchingCriteria, zodiac]);
 
   // Passes zodiac to zodiac helper to return a brief zodiac description
   useEffect(() => {
     if (zodiac) {
-      const { description } = getZodiacData(zodiac) || { description: "Unknown sign" };
+      const { description, pokemonType } = getZodiacData(zodiac) || { description: "Unknown sign" };
       setZodiacDescription(description);
+      setMatchingCriteria(zType => ({
+        ...zType,
+        zodiacType: pokemonType
+      }));
     }
   }, [zodiac]);
 

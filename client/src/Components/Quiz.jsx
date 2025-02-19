@@ -5,7 +5,7 @@ import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
 
 export default function Quiz() {
-    const { setGameState, name, setAnswers, answers, setMatchingCriteria } = useContext(QuizContext); // Get name here
+    const { setGameState, name, setAnswers, answers, setMatchingCriteria } = useContext(QuizContext);
     const [currQuestion, setCurrQuestion] = useState(0);
     const [optionChosen, setOptionChosen] = useState("");
 
@@ -14,11 +14,9 @@ export default function Quiz() {
     const nextQuestion = () => {
       // get the key from the Question Bank
       const currentQ = QuestionBank[currQuestion];
-      console.log("currentQ.options?", QuestionBank[currQuestion].options)
       const selectedOption = currentQ.options?.find(option => option.answer === optionChosen);
-      console.log("selectionOption", selectedOption);
-      setAnswers(ans => ({...ans, [currentQ]: optionChosen}));
-      console.log("answers", answers)
+      setAnswers(ans => ({...ans, [currentQ.key] : optionChosen}));
+
       if (selectedOption) {
         setMatchingCriteria(criteria => ({
           ...criteria,
@@ -34,11 +32,9 @@ export default function Quiz() {
     };
 
     const finishQuiz = () => {
-      const key = QuestionBank[currQuestion].key;
-      const selectedOption = key.options?.find(option => option.answer === optionChosen);
-
-      // this makes sure the final question is saved
-      setAnswers(ans => ({...ans, [key]: optionChosen}));
+      const currentQ = QuestionBank[currQuestion];
+      const selectedOption = currentQ.options?.find(option => option.answer === optionChosen);
+      setAnswers(ans => ({...ans, [currentQ.key]: optionChosen}));
 
       if (selectedOption) {
         setMatchingCriteria(criteria => ({
@@ -77,7 +73,7 @@ export default function Quiz() {
                 loop={false}
                 showCursor={false}
                 strings={[
-                    `<p> ${() => getRandomElement(greetings)}</p> <p>Now, to find your perfect Pokébud, I just need to ask a few crucial, highly scientific questions. <p>You ready?</p>`
+                    `<p> ${getRandomElement(greetings)}</p> <p>Now, to find your perfect Pokébud, I just need to ask a few crucial, highly scientific questions. <p>You ready?</p>`
                 ]}
             />
           </div>
