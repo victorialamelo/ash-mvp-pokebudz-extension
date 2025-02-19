@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ReactTyped } from "react-typed";
 import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
@@ -10,9 +10,17 @@ export default function Matches() {
     const shape = matchingCriteria.pokemonShape;
     const type = matchingCriteria.pokemonType;
     const zType = matchingCriteria.zodiacType;
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+    if (matches.length > 0) {
+      console.log("matches fetched");
+      return;
+    }
+
     const fetchPokemonMatches = async () => {
+
+        setLoading(true);
         try {
             const res1 = await fetch(`api/pokemon-habitat/${habitat}`);
             const res2 = await fetch(`api/pokemon-shape/${shape}`);
@@ -39,6 +47,7 @@ export default function Matches() {
         } catch (error) {
             console.error("Error fetching Pokémon matches:", error);
         }
+        setLoading(false);
     };
     fetchPokemonMatches();
 }, [habitat, shape, type, zType, setMatches]);
@@ -48,6 +57,7 @@ export default function Matches() {
         <div className="Matches">
           <h1>{`${name}'s Pokebud Matches`}</h1>
           <div className="dialogue">
+            <p>{ loading ? "please wait loading results" : null }</p>
             <ReactTyped
                 startWhenVisible
                 typeSpeed={0}
@@ -68,7 +78,7 @@ export default function Matches() {
             {matches.map((poke) => (
               <div key={poke.id} className="pokemon-card">
                 <img src={poke.sprite} alt={poke.name} />
-                <button> {poke.name} is my bud!</button>
+                <p> {poke.name} is my bud!</p>
               </div>
             ))}
           </div>

@@ -115,3 +115,7 @@ input {
   border: 5px solid black;
   border-radius: 9px;
 }
+
+.pokemon-card img {
+  width: 80px;
+}
