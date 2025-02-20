@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+// PokeAPI https://pokeapi.co/api/v2/
+
 // H A B I T A T ===================================
 const fetchPokemonFromHabitat = async (habitat) => {
     try {

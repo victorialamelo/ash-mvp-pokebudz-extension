@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require("../model/helper");
 
-// http://localhost:5101/users/
+// http://localhost:5101/api/users/
 
 // G E T all users =======================
 router.get("/", async function(req, res) {
@@ -36,16 +36,16 @@ router.get("/:id", async function(req, res, next) {
 // P O S T insert user ==========================
 router.post("/", async function(req, res, next) {
   console.log("req.body", req.body);
-  const { name, email } = req.body;
+  const { name } = req.body;
 
   if (!name) {
     return res.status(400).send({ message: "Name is required" });
   }
 
-  const sql = `INSERT INTO users (name, email) VALUES ( '${name}', '${email}');`;
+  const sql = `INSERT INTO users (name) VALUES ( '${name}' );`;
 
   try {
-    await db(sql, [name, email || null]);
+    await db(sql, [name || null]);
     //Return the updated records
     const result = await db("SELECT * FROM users");
     res.status(201).send(result.data);

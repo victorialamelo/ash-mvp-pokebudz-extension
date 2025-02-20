@@ -7,8 +7,35 @@ import '../App.css'
 
 export default function Result() {
   const { setGameState, name, answers, setMatchingCriteria } = useContext(QuizContext);
-  const [zodiac, setZodiac] = useState("");
-  const [zodiacDescription, setZodiacDescription] = useState("");
+  const [ loading, setLoading ] = useState(false);
+  const [ zodiac, setZodiac ] = useState("");
+  const [ zodiacDescription, setZodiacDescription ] = useState("");
+
+  async function postAnswers(answers) {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        zodiac: zodiac,
+        birthday: answers.birthday
+      })
+    }
+    try {
+      setLoading(true);
+      const response = await fetch('/api/pokebudz', options);
+      if (response.ok) {
+        await response.json();
+        console.log("name inserted to db");
+      } else {
+        console.log(response);
+        console.log(`Server Error ${response.status} ${response.statusText}`);
+      }
+    } catch (e) {
+      console.log(`Network Error: ${e.message}`)
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
     // Analyzes birthday to zodiac
@@ -41,7 +68,6 @@ export default function Result() {
 
   }, [answers.birthday, setMatchingCriteria, zodiac]);
 
-  // Passes zodiac to zodiac helper to return a brief zodiac description
   useEffect(() => {
     if (zodiac) {
       const { description, pokemonType } = getZodiacData(zodiac) || { description: "Unknown sign" };
@@ -51,10 +77,12 @@ export default function Result() {
         zodiacType: pokemonType
       }));
     }
-  }, [zodiac, setMatchingCriteria]);
+  }, [zodiac, answers, setMatchingCriteria]);
+
 
   return (
     <>
+    { loading ? "loading" : (
         <div className="Result">
           <h1>{`${name}'s Pokebud Results`}</h1>
           <div className="dialogue">
@@ -78,10 +106,11 @@ export default function Result() {
             )
           }
         </div>
-        <button onClick={() => setGameState("menu")}>restart quiz</button>
-        <button onClick={() => setGameState("matches")}>Find my Bud!</button>
 
+        <button onClick={() => setGameState("matches")}>Continue</button>
+        <button onClick={() => setGameState("menu")}>Restart Quiz</button>
       </div>
+    )}
     </>
   );
 }

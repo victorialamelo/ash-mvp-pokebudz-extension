@@ -54,8 +54,8 @@ export default function Matches() {
 
     return (
       <>
-        <div className="Matches">
-          <h1>{`${name}'s Pokebud Matches`}</h1>
+        <div className="Selection">
+          <h1>{`${name}'s Pokebud `}</h1>
           <div className="dialogue">
             <p>{ loading ? "please wait loading results" : null }</p>
             <ReactTyped
@@ -65,13 +65,8 @@ export default function Matches() {
                 loop={false}
                 showCursor={false}
                 strings={[
-                    `You matched with
-                        <ul>
-                            <li>Pokemon that have the habitat: ${habitat}</li>
-                            <li>Pokemon that have the shape: ${shape}</li>
-                            <li>Pokemon types ${type} and ${zType}</li>
-                        </ul>
-                     `
+                    `I think I did a great job at matching you up huh? no problemo. So which one will you call your best bud for life?`
+
                 ]}
                 onComplete={() => console.log("done")}
             />
@@ -80,13 +75,11 @@ export default function Matches() {
                 <div key={poke.id} className="pokemon-card">
 
                   <img src={poke.sprite} alt={poke.name} />
-                  <p>{poke.name}</p>
+                  <button type="button" className="buddy">{poke.name}</button>
                 </div>
               ))}
             </div>
           </div>
-          <button onClick={() => setGameState("selection")}>select!</button>
-          <button onClick={() => setGameState("result")}>back</button>
         </div>
       </>
     );
