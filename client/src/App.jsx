@@ -9,6 +9,7 @@ import './App.css';
 function App() {
     const [gameState, setGameState] = useState("menu");
     const [name, setName] = useState("");
+    const [email, setEmail] = useState(null);
     const [answers, setAnswers] = useState({});
     const [zodiac,setZodiac] = useState("");
     const [matchingCriteria, setMatchingCriteria] = useState({
@@ -23,6 +24,7 @@ function App() {
       <QuizContext.Provider value={{
           gameState, setGameState,
           name, setName,
+          email, setEmail,
           answers, setAnswers,
           zodiac, setZodiac,
           matchingCriteria, setMatchingCriteria,

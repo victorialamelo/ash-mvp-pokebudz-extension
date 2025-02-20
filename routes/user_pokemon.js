@@ -2,7 +2,19 @@ const express = require('express');
 const router = express.Router();
 const db = require("../model/helper");
 
-// GET all Pokémon for a user (by user_id)
+// http://localhost:5101/userpokemon/
+
+// G E T table ======================
+router.get('/', async (req, res) => {
+    try {
+      const result = await db(`SELECT * FROM user_pokemon;`);
+      res.status(200).send(result.data);
+    } catch (err) {
+      res.status(500).send({ message: 'Error fetching user_pokemon table', error: err.message });
+    }
+  });
+
+// G E T all pokemon by ID =======================
 router.get('/:userId', async (req, res) => {
   const { userId } = req.params;
   try {
@@ -13,10 +25,9 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
-module.exports = router;
 
-
-// user_pokemon.js
+// P O S T ===========================
+// insert pokemon, user, nickname, happiness_score
 router.post("/", async (req, res) => {
     const { user_id, pokemon_id, nickname } = req.body;
     if (!user_id || !pokemon_id) {

@@ -4,13 +4,42 @@ import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
 
 export default function MainMenu() {
-    const { setGameState, name, setName } = useContext(QuizContext); // Add setName
-    const [ skip, setSkip ] = useState();
+    const { setGameState, name, setName, email, setEmail } = useContext(QuizContext); // Add setName
+    const [ skip, setSkip ] = useState(false);
+    const [ loading, setLoading ] = useState(false)
 
-    const handleSubmit = (event) => {
+    async function postName(userName, userEmail) {
+      const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: userName,
+          email: userEmail
+        })
+      }
+      try {
+        setLoading(true);
+        const response = await fetch('/api/users', options);
+        if (response.ok) {
+          const data = await response.json();
+          console.log("POST THE NAME", data);
+        } else {
+          console.log(response);
+          console.log(`Server Error ${response.status} ${response.statusText}`);
+        }
+      } catch (e) {
+        console.log(`Network Error: ${e.message}`)
+      }
+      setLoading(false);
+    }
+
+    const handleSubmit = async (event) => {
       event.preventDefault();
-      if (name.trim()) {
-          setName(name); // Save the name in context
+      if (name.trim() && email.trim()) {
+          setName(name);
+          setEmail(email);
+          await postName(name, email);
+          console.log("handleSubmit", name, email);
           setGameState("questions");
       } else {
           alert("um, Ysabella is staring at you. You should probably enter a name.");
@@ -54,6 +83,12 @@ export default function MainMenu() {
                   placeholder="Enter your name..."
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+              />
+              <input
+                  type="email"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
               />
               <button type="submit">Apply to Adopt</button>
           </form>

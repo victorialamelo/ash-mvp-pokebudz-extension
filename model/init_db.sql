@@ -23,12 +23,14 @@ CREATE TABLE user_pokemon (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     pokemon_id INT NOT NULL,
+    pokemon_name VARCHAR(100),
     nickname VARCHAR(100),
     adopted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_fed TIMESTAMP NULL,
     last_played TIMESTAMP NULL,
-    last_awak TIMESTAMP NULL,
+    last_awake TIMESTAMP NULL,
     happiness_score INT DEFAULT 0,
+    status VARCHAR(100),
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );

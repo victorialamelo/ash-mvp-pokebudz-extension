@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const db = require("../model/helper");
 
+// http://localhost:5101/users/
+
 // G E T all users =======================
 router.get("/", async function(req, res) {
   try {
