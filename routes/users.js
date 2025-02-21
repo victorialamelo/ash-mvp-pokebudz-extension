@@ -42,12 +42,13 @@ router.post("/", async function(req, res, next) {
     return res.status(400).send({ message: "Name is required" });
   }
 
-  const sql = `INSERT INTO users (name) VALUES ( '${name}' );`;
+  const sql = `INSERT INTO users (name) VALUES ('${name}');`;
 
   try {
     await db(sql, [name || null]);
     //Return the updated records
-    const result = await db("SELECT * FROM users");
+    const result = await db(` SELECT * FROM users WHERE name = '${name}'
+  ORDER BY id DESC LIMIT 1`);
     res.status(201).send(result.data);
   } catch (e) {
     console.error("INSERT ERROR", e);

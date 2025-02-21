@@ -3,9 +3,11 @@ import { ReactTyped } from "react-typed";
 import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
 
+// TO DO
+// Nice to have - Animate input for smooth transition
 
 export default function MainMenu() {
-  const { setGameState, name, setName } = useContext(QuizContext); // Add setName
+  const { setGameState, name, setName, setUserID  } = useContext(QuizContext); // Add setName
   const [ showForm, setShowForm ] = useState(false)
   const [ loading, setLoading ] = useState(false)
 
@@ -21,8 +23,9 @@ export default function MainMenu() {
       setLoading(true);
       const response = await fetch('/api/users', options);
       if (response.ok) {
-        await response.json();
-        console.log("name inserted to db");
+        const data = await response.json();
+        const newUserId = data[0].id;
+        setUserID(newUserId);
       } else {
         console.log(response);
         console.log(`Server Error ${response.status} ${response.statusText}`);
@@ -38,14 +41,14 @@ export default function MainMenu() {
     event.preventDefault();
     if (name.trim()) {
         await postName(name);
+        // setUserInfo(newUser => ({ ...newUser, userID: userID }));
+        // console.log("USERS INFO ==========", userInfo);
         setGameState("questions");
     } else {
         alert("um, Ysabella is staring at you. You should probably enter a name.");
     }
   };
 
-
-  console.log("QUIZ showForm:", showForm);
   return (
     <>
       {loading ? <p>loading</p> : (
@@ -54,7 +57,7 @@ export default function MainMenu() {
           <div className="dialogue">
               <ReactTyped
                     startWhenVisible
-                    typeSpeed={10}
+                    typeSpeed={40}
                     backSpeed={0}
                     loop={false}
                     showCursor={false}
@@ -64,7 +67,7 @@ export default function MainMenu() {
                         <p>No pressure.</p>
                         <p>Anyway, my name’s Ysabella. What’s your name?</p>`
                     ]}
-                    onComplete={() => setTimeout(() => setShowForm(true), 500)}
+                    onComplete={() => setShowForm(true)}
               />
           </div>
           { showForm && (

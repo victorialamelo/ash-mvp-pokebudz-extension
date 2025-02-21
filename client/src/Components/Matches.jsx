@@ -3,6 +3,9 @@ import { ReactTyped } from "react-typed";
 import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
 
+// TO DO
+// URGENT INCONSISTENT API CALLS maybe because you're the same API twice?
+// Don't show buttons until typing is complete onComplete in React Typed
 
 export default function Matches() {
     const { name, matchingCriteria, matches, setMatches, setGameState } = useContext(QuizContext);
@@ -13,8 +16,9 @@ export default function Matches() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+    // We can skip these calls if we already have matches from the API
     if (matches.length > 0) {
-      console.log("matches fetched");
+      console.log("MATCHES FETCHED FROM THE API");
       return;
     }
 
@@ -30,8 +34,8 @@ export default function Matches() {
             const shapePokemon = await res2.json();
             const typePokemon = await res3.json();
             const zTypePokemon = await res4.json();
-
-            const allPokemonNames = [habitatPokemon, shapePokemon, typePokemon, zTypePokemon];
+            console.log("T E S T I N G =====================================", habitatPokemon);
+            const allPokemonNames = [habitatPokemon, shapePokemon, typePokemon, zTypePokemon ];
 
             const detailsPromises = allPokemonNames.map(name =>
                 fetch(`api/pokemon/pokemon-details/${name}`).then(res => res.json())
@@ -41,7 +45,6 @@ export default function Matches() {
 
             console.log("pokemonDetails", pokemonDetails); // This will show the detailed info of each Pokémon
             setMatches(pokemonDetails);
-            console.log(matches)
         } catch (error) {
             console.error("Error fetching Pokémon matches:", error);
         } finally {
@@ -52,15 +55,22 @@ export default function Matches() {
     fetchPokemonMatches();
 }, [habitat, shape, type, zType, setMatches, matches]);
 
+
+
     return (
       <>
+      { loading ? (
+        <div className="loading">
+          <p>doot doot doot</p>
+        </div>
+        ) : (
         <div className="Matches">
           <h1>{`${name}'s Pokebud Matches`}</h1>
           <div className="dialogue">
-            <p>{ loading ? "please wait loading results" : null }</p>
+
             <ReactTyped
                 startWhenVisible
-                typeSpeed={30}
+                typeSpeed={40}
                 backSpeed={0}
                 loop={false}
                 showCursor={false}
@@ -71,23 +81,15 @@ export default function Matches() {
                             <li>Pokemon that have the shape: ${shape}</li>
                             <li>Pokemon types ${type} and ${zType}</li>
                         </ul>
+                      Ready to see your matches?
                      `
                 ]}
-                onComplete={() => console.log("done")}
             />
-            <div className="pokemon-matches">
-              {matches.slice(0,3).map((poke) => (
-                <div key={poke.id} className="pokemon-card">
-
-                  <img src={poke.sprite} alt={poke.name} />
-                  <p>{poke.name}</p>
-                </div>
-              ))}
-            </div>
           </div>
-          <button onClick={() => setGameState("selection")}>select!</button>
+          <button onClick={() => setGameState("selection")}>ready!</button>
           <button onClick={() => setGameState("result")}>back</button>
         </div>
+        )}
       </>
     );
 }

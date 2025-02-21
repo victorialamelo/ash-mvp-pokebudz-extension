@@ -4,41 +4,17 @@ import { QuizContext } from '../Helpers/Contexts';
 import { getZodiacData } from '../Helpers/Zodiac';
 import '../App.css'
 
+// TO DO
+// Restart quiz should destroy the name reaction and just show the question
 
 export default function Result() {
-  const { setGameState, name, answers, setMatchingCriteria } = useContext(QuizContext);
+  const { setGameState, name, answers, setMatchingCriteria, setZodiac, zodiac } = useContext(QuizContext);
   const [ loading, setLoading ] = useState(false);
-  const [ zodiac, setZodiac ] = useState("");
   const [ zodiacDescription, setZodiacDescription ] = useState("");
-
-  async function postAnswers(answers) {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        zodiac: zodiac,
-        birthday: answers.birthday
-      })
-    }
-    try {
-      setLoading(true);
-      const response = await fetch('/api/pokebudz', options);
-      if (response.ok) {
-        await response.json();
-        console.log("name inserted to db");
-      } else {
-        console.log(response);
-        console.log(`Server Error ${response.status} ${response.statusText}`);
-      }
-    } catch (e) {
-      console.log(`Network Error: ${e.message}`)
-    } finally {
-      setLoading(false);
-    }
-  }
 
   useEffect(() => {
     // Analyzes birthday to zodiac
+    setLoading(true);
     if (!answers.birthday) return;
 
     const bday = new Date(answers.birthday);
@@ -66,18 +42,19 @@ export default function Result() {
       setZodiac(foundSign.sign);
     }
 
-  }, [answers.birthday, setMatchingCriteria, zodiac]);
+  }, [answers.birthday, setMatchingCriteria, zodiac, setZodiac]);
 
   useEffect(() => {
     if (zodiac) {
       const { description, pokemonType } = getZodiacData(zodiac) || { description: "Unknown sign" };
       setZodiacDescription(description);
+      setLoading(false);
       setMatchingCriteria(zType => ({
         ...zType,
         zodiacType: pokemonType
       }));
     }
-  }, [zodiac, answers, setMatchingCriteria]);
+  }, [zodiac, answers, setMatchingCriteria, setZodiac]);
 
 
   return (
@@ -90,7 +67,7 @@ export default function Result() {
             zodiacDescription && (
               <ReactTyped
                 startWhenVisible
-                typeSpeed={0} // Slow down typing for better readability
+                typeSpeed={40}
                 backSpeed={0}
                 loop={false}
                 showCursor={false}
@@ -108,7 +85,7 @@ export default function Result() {
         </div>
 
         <button onClick={() => setGameState("matches")}>Continue</button>
-        <button onClick={() => setGameState("menu")}>Restart Quiz</button>
+        <button onClick={() => setGameState("questions")}>Restart Quiz</button>
       </div>
     )}
     </>

@@ -26,30 +26,9 @@ router.get('/:userId', async (req, res) => {
 });
 
 // P O S T ===========================
-// insert zodiac and birthday
-router.post("/", async (req, res) => {
-  const { user_id, pokemon_id, nickname } = req.body;
-  if (!user_id || !pokemon_id) {
-    return res.status(400).send({ message: "User ID and Pokémon ID are required" });
-  }
-
-  const sql = `
-    INSERT INTO user_pokemon (user_id, pokemon_id, nickname, happiness_score)
-    VALUES (?, ?, ?, 0);`;
-
-  try {
-    await db(sql, [user_id, pokemon_id, nickname]);
-    const result = await db("SELECT * FROM user_pokemon;");
-    res.status(201).send(result.data);
-  } catch (err) {
-    res.status(500).send({ message: 'Error adding Pokémon to user', error: err.message });
-  }
-});
-
-// P O S T ===========================
 // insert pokemon, user, nickname, happiness_score
 router.post("/", async (req, res) => {
-    const { user_id, pokemon_id, nickname } = req.body;
+    const { user_id, pokemon_id } = req.body;
     if (!user_id || !pokemon_id) {
       return res.status(400).send({ message: "User ID and Pokémon ID are required" });
     }

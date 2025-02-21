@@ -4,11 +4,17 @@ import { QuestionBank } from '../Helpers/QuestionBank';
 import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
 
+// TO DO
+// Build helper components maybe? Theres a lot happening in this one component
+// Fix h1 spacing
+// Fix calendar min and max obvs you can be born in the future.
+// Nice to have - style calendar input (seems time consuming)
+
 export default function Quiz() {
   const { setGameState, name, setAnswers, setMatchingCriteria } = useContext(QuizContext);
   const [ showForm, setShowForm ] = useState(false);
-  const [currQuestion, setCurrQuestion] = useState(0);
-  const [optionChosen, setOptionChosen] = useState("");
+  const [ currQuestion, setCurrQuestion ] = useState(0);
+  const [ optionChosen, setOptionChosen ] = useState("");
   const [ currentScript, setCurrentScript ] = useState("");
   const [ displayQuestion, setDisplayQuestion ] = useState(false);
   const [ quizIntro, setQuizintro ] = useState(false);
@@ -17,12 +23,10 @@ export default function Quiz() {
 
   const handleAnswer = (selectedAnswer) => {
     setOptionChosen(selectedAnswer);
-    console.log("selectedAnswer",selectedAnswer)
   }
 
   const handleDate = (bday) => {
     setOptionChosen(bday.target.value);
-    console.log("Updated optionChosen:", bday.target.value )
   };
 
   const handleCriteria = (selectedOption) => {
@@ -62,8 +66,6 @@ export default function Quiz() {
     setGameState("result");
   };
 
-  // console.log("QUIZ showForm", showForm);
-  // console.log("QUIZ displayQuestion", displayQuestion);
   return (
     <>
       <div className="Questions">
@@ -72,7 +74,7 @@ export default function Quiz() {
           <div className={quizIntro ? "hide" : "quiz intro"}>
               <ReactTyped
                     startWhenVisible
-                    typeSpeed={0}
+                    typeSpeed={40}
                     backSpeed={0}
                     loop={false}
                     showCursor={false}
@@ -87,7 +89,7 @@ export default function Quiz() {
             { displayQuestion &&
               <ReactTyped
                     startWhenVisible
-                    typeSpeed={30}
+                    typeSpeed={40}
                     backSpeed={0}
                     loop={false}
                     showCursor={false}
@@ -100,7 +102,7 @@ export default function Quiz() {
           <>
         <form>
           {QuestionBank[currQuestion].key === "birthday" ? (
-            <input type="date" value={optionChosen} onChange={(d) => handleDate(d)} />
+            <input type="date" min="1920-01-01" max="2015-12-31" value={optionChosen} onChange={(d) => handleDate(d)} />
           )
           : (
             <div className="options">
