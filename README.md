@@ -1,35 +1,38 @@
 # PokeBudz
 
-Welcome to PokeBudz! This is an adoption-style app where users are matched with a Pokémon based on a set of personality and preference-based questions. After you’ve completed the quiz, you’ll be paired with your new Pokémon buddy, and you can interact with them by feeding, waking them up, playing, and more!
+Welcome to PokeBudz! This is an adoption-style app where users are matched with a Pokémon based on a set of personality and preference-based questions. After you’ve completed the quiz, you’ll be paired with your new Pokémon buddy.
 
 ## Features
 
-- User Quiz:
+- **User Quiz:**
   - Users complete a series of questions related to their ideal Pokémon. The questions are designed to determine the best match based on habitat, shape, personality, and even zodiac sign.
   - The answers are then used to filter through Pokémon options and find the most suitable match.
-- PokeAPI Integration:
-  - The app pulls data from the PokeAPI, including each Pokémon’s ID, name, and a sprite GIF.
+- **PokeAPI Integration:**
+  - The app pulls data from the [PokeAPI](https://pokeapi.co/), including each Pokémon’s ID, name, and a sprite GIF.
   - This data is used to match users with their Pokémon buddy and display their Pokémon’s information.
-- Database Integration:
+- **Database Integration:**
   - Once a pokemon is matched to a user, if they'd like to save their match they can enter their email address as their unique identifier. This can later be used for returning user functionality.
 
 ## Future Features
 
+### Certificate of Adoption
+
+- **Adoption Certificate Generation:** Instead of an interactive dashboard, create a feature that generates a certificate of adoption. This certificate could include detailed information about the Pokémon—its name, type, personality traits, and even a fun adoption message.
+  
+- **Digital Keepsake:** The certificate could be available as a downloadable PDF or a dynamically rendered web page, serving as a digital proof of adoption and a fun memento for users.
+  
 ### Interactive Dashboard
 
-- Caring for Your Pokémon: Build a dashboard where users can interact with their Pokémon through actions such as:
+- **Caring for Your Pokémon:** Build a dashboard where users can interact with their Pokémon through actions such as:
     -   Feeding: Adjust the Pokémon’s happiness by tracking the time since its last meal. 
     -   Waking Up: Change the Pokémon's status when it wakes up, which may affect its overall happiness.
     -   Playing: Offer interactive ways to play with the Pokémon, influencing its happiness score.
 
-- Happiness Score Management: You can use a default value or use the PokeAPI's `base_happiness` as a starting point and update it dynamically based on user actions.
+- **Happiness Score Management:** You can use a default value or use the PokeAPI's `base_happiness` as a starting point and update it dynamically based on user actions.
 
-- Returning Users: Develop functionality that allows users who have already been matched to log back in, view their Pokémon’s status, and continue interacting with their buddy.
+- **Returning Users:** Develop functionality that allows users who have already been matched to log back in, view their Pokémon’s status, and continue interacting with their buddy.
 
-### Certificate of Adoption
 
-- Adoption Certificate Generation: Instead of an interactive dashboard, create a feature that generates a certificate of adoption. This certificate could include detailed information about the Pokémon—its name, type, personality traits, and even a fun adoption message.
-- Digital Keepsake: The certificate could be available as a downloadable PDF or a dynamically rendered web page, serving as a digital proof of adoption and a fun memento for users.
 
 ### Notes for Future Development
 
@@ -60,8 +63,8 @@ Alternatively, you can rename the provided `.env.example` file to `.env`.
 
 Access the mySQL CLI:
 
-- MAC: Type `mysql -u root -p` into your terminal, enter your password when prompted.
-- WINDOWS: Search for mySQL in windows search and open mySQL 8.0 Command Line Client. Enter you password when prompted.
+- **MAC:** Type `mysql -u root -p` into your terminal, enter your password when prompted.
+- **WINDOWS:** Search for mySQL in windows search and open mySQL 8.0 Command Line Client. Enter you password when prompted.
 
 ### 3. Create the Database
 
