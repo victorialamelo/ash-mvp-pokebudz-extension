@@ -33,19 +33,20 @@ export default function Quiz() {
 
   const nextQuestion = (event) => {
     event.preventDefault();
-    const currentQ = QuestionBank[currQuestion];
-    const selectedOption = currentQ.options?.find(option => option.answer === optionChosen);
+    const currentQ = QuestionBank[currQuestion]; // QuestionBank in Helpers holds all the questions and answers
+    const selectedOption = currentQ.options?.find(option => option.answer === optionChosen); // Stores the users selection
 
     if (!optionChosen) return;
 
-    setAnswers(ans => ({...ans, [currentQ.key] : optionChosen}));
+    setAnswers(ans => ({...ans, [currentQ.key] : optionChosen})); // Stores the users answers
 
-    if (selectedOption) {handleCriteria(selectedOption)}
+    if (selectedOption) {handleCriteria(selectedOption)} // Based on the answer returns the criteria to search
 
     if (currQuestion + 1 < QuestionBank.length) {
-      setCurrQuestion(prev => prev + 1);
+      setCurrQuestion(q => q + 1); // Displays the next question
       setOptionChosen("");
       setDisplayQuestion(true);
+      setShowForm(false)
       setQuizintro(true);
     }
   };
@@ -61,12 +62,12 @@ export default function Quiz() {
   return (
     <>
       <div className="Questions">
-        <h1><p>{`${name}'s`}</p> Pokebuds Application</h1>
+        <h1>{`${name}'s`} Pokebuds Application</h1>
         <div className="dialogue">
           <div className={quizIntro ? "hide" : "quiz intro"}>
               <ReactTyped
                     startWhenVisible
-                    typeSpeed={0}
+                    typeSpeed={20}
                     backSpeed={0}
                     loop={false}
                     showCursor={false}
@@ -81,7 +82,7 @@ export default function Quiz() {
             { displayQuestion &&
               <ReactTyped
                     startWhenVisible
-                    typeSpeed={0}
+                    typeSpeed={20}
                     backSpeed={0}
                     loop={false}
                     showCursor={false}
@@ -112,9 +113,9 @@ export default function Quiz() {
           )}
 
         {currQuestion === QuestionBank.length - 1 ? (
-          <button type="button" onClick={finishQuiz} disabled={!optionChosen}>Finish Quiz</button>
+          <button type="button" className="submit" onClick={finishQuiz} disabled={!optionChosen}>Finish Quiz</button>
         ) : (
-          <button type="button" onClick={nextQuestion} disabled={!optionChosen}>Next Question</button>
+          <button type="button" className="submit" onClick={nextQuestion} disabled={!optionChosen}>Next Question</button>
         )}
         </form>
         </>

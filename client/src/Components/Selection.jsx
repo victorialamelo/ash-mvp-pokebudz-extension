@@ -24,7 +24,7 @@ export default function Matches() {
 
             <ReactTyped
                 startWhenVisible
-                typeSpeed={40}
+                typeSpeed={20}
                 backSpeed={0}
                 loop={false}
                 showCursor={false}
@@ -34,16 +34,23 @@ export default function Matches() {
                 ]}
                 onComplete={() => console.log("done")}
             />
-          </div>
-          <div className="pokemon-matches">
+            <div className="pokemon-matches">
               {matches.map((poke) => (
                 <div key={poke.id} className="pokemon-card">
 
                   <img src={poke.sprite} alt={poke.name} />
-                  <button type="button" className="buddy" onClick={() => pokebudPick(poke.id, poke.name, poke.sprite)}>{capitilize(poke.name)}</button>
+                  <p className="buddy">{capitilize(poke.name)}</p>
                 </div>
               ))}
             </div>
+          </div>
+          <div className="selectButtons">
+              {matches.map((poke) => (
+                <div key={poke.id} className="selectbuttons">
+                  <button type="button" className={!pokebudPick ? "selected" : "option"} onClick={() => pokebudPick(poke.id, poke.name, poke.sprite)}>{capitilize(poke.name)}</button>
+                </div>
+              ))}
+          </div>
         </div>
       </>
     );

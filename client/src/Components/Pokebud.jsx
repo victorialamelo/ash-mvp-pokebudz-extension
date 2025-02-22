@@ -12,6 +12,8 @@ export default function Pokebud() {
     const { name, pokebud, userID } = useContext(QuizContext);
     const [ email, setEmail ] = useState("");
 
+    const capitalize = (name) => name.charAt(0).toUpperCase() + name.slice(1);
+
     async function postEmail(userEmail) {
         const options = {
           method: "POST",
@@ -83,12 +85,12 @@ export default function Pokebud() {
           <div className="dialogue">
             <ReactTyped
                 startWhenVisible
-                typeSpeed={40}
+                typeSpeed={20}
                 backSpeed={0}
                 loop={false}
                 showCursor={false}
                 strings={[
-                    `WOOHOOO! Congratulations! ${pokebud.pokename} is your new buddy!`
+                    `WOOHOOO! Congratulations! ${capitalize(pokebud.pokename)} is your new buddy!`
                 ]}
             />
             <div className="myBuddy">
@@ -105,7 +107,7 @@ export default function Pokebud() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <button type="submit">save</button>
+                <button type="submit">Save</button>
             </form>
         </div>
         )}

@@ -54,7 +54,7 @@ export default function MainMenu() {
           <div className="dialogue">
               <ReactTyped
                     startWhenVisible
-                    typeSpeed={0}
+                    typeSpeed={20}
                     backSpeed={0}
                     loop={false}
                     showCursor={false}
@@ -77,7 +77,7 @@ export default function MainMenu() {
                 value={name}
                 onChange={(e) => setName(capitilize(e.target.value))}
             />
-            <button type="submit">Apply to Adopt</button>
+            <button type="submit" className="submit">Apply to Adopt</button>
           </form>
 
           </>

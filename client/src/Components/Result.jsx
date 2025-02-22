@@ -67,7 +67,7 @@ export default function Result() {
             zodiacDescription && (
               <ReactTyped
                 startWhenVisible
-                typeSpeed={40}
+                typeSpeed={20}
                 backSpeed={0}
                 loop={false}
                 showCursor={false}
@@ -78,13 +78,14 @@ export default function Result() {
                   <p><strong>Habitat:</strong> ${answers.habitat}</p>
                   <p><srong>Approach:</strong> ${answers.type2}</p>`
                 ]}
+                onComple
               />
             )
           }
         </div>
 
-        <button onClick={() => setGameState("matches")}>Continue</button>
-        <button onClick={() => setGameState("questions")}>Restart Quiz</button>
+        <button className="submit" onClick={() => setGameState("matches")}>Continue</button>
+        <button className="submit" onClick={() => setGameState("questions")}>Restart Quiz</button>
       </div>
     )}
     </>

@@ -1,13 +1,13 @@
 export const QuestionBank = [
     {   // TYPE https://pokeapi.co/api/v2/type/
-        prompt: (name) => `<p>Ok first question ${name} — How would you describe your approach to life?</p>`,
+        prompt: (name) => `<p>Alright, ${name}, let’s start strong—what’s your life philosophy?</p>`,
         type: "multiple-choice",
         key: "type2",
         options: [
-            { answer: "I value independence and reflection.", pokemonType: ["ghost", "dark"] },
-            { answer: "I rise above challenges.", pokemonType: ["dragon", "stellar"] },
-            { answer: "I keep things simple and balanced.", pokemonType: ["normal", "ground"] },
-            { answer: "I challenge norms and stir things up.", pokemonType: ["poison", "ghost"] }
+            { answer: "Lone wolf vibes", pokemonType: ["ghost", "dark"] },
+            { answer: "Boss battle energy", pokemonType: ["dragon", "stellar"] },
+            { answer: "Keep it chill", pokemonType: ["normal", "ground"] },
+            { answer: "Agent of chaos", pokemonType: ["poison", "ghost"] }
         ]
     },
     {   // SHAPE https://pokeapi.co/api/v2/pokemon-shape

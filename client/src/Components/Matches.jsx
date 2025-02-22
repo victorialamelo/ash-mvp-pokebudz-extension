@@ -8,51 +8,57 @@ import '../App.css';
 // Don't show buttons until typing is complete onComplete in React Typed
 
 export default function Matches() {
-    const { name, matchingCriteria, matches, setMatches, setGameState } = useContext(QuizContext);
-    const habitat = matchingCriteria.pokemonHabitat;
-    const shape = matchingCriteria.pokemonShape;
-    const type = matchingCriteria.pokemonType;
-    const zType = matchingCriteria.zodiacType;
-    const [loading, setLoading] = useState(false);
+  const { name, matchingCriteria, matches, setMatches, setGameState } = useContext(QuizContext);
+  const habitat = matchingCriteria.pokemonHabitat;
+  const shape = matchingCriteria.pokemonShape;
+  const type = matchingCriteria.pokemonType;
+  const zType = matchingCriteria.zodiacType;
+  const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-    // We can skip these calls if we already have matches from the API
+  console.log("MATCHES matching criteria", matchingCriteria);
+
+  useEffect(() => {
     if (matches.length > 0) {
       console.log("MATCHES FETCHED FROM THE API");
       return;
     }
 
     const fetchPokemonMatches = async () => {
-        try {
-            setLoading(true);
-            const res1 = await fetch(`api/pokemon/pokemon-habitat/${habitat}`);
-            const res2 = await fetch(`api/pokemon/pokemon-shape/${shape}`);
-            const res3 = await fetch(`api/pokemon/pokemon-type/${type}`);
-            const res4 = await fetch(`api/pokemon/pokemon-type/${zType}`);
+      try {
+        setLoading(true);
+        const responses = await Promise.all([
+          fetch(`api/pokemon/pokemon-habitat/${habitat}`),
+          fetch(`api/pokemon/pokemon-shape/${shape}`),
+          fetch(`api/pokemon/pokemon-type/${type}`),
+          fetch(`api/pokemon/pokemon-type/${zType}`)
+        ])
 
-            const habitatPokemon = await res1.json();
-            const shapePokemon = await res2.json();
-            const typePokemon = await res3.json();
-            const zTypePokemon = await res4.json();
+        const habitatPokemon = await responses[0].json();
+        const shapePokemon = await responses[1].json();
+        const typePokemon = await responses[2].json();
+        const zTypePokemon = await responses[3].json();
 
-            const allPokemonNames = [habitatPokemon, shapePokemon, typePokemon, zTypePokemon ];
+        const allPokemonNames = [habitatPokemon, shapePokemon, typePokemon, zTypePokemon ];
+        console.log({allPokemonNames});
+        const detailsPromises = allPokemonNames.map(name =>
+          fetch(`api/pokemon/pokemon-details/${name}`).then(res => res.json())
+        );
+        console.log({detailsPromises});
 
-            const detailsPromises = allPokemonNames.map(name =>
-                fetch(`api/pokemon/pokemon-details/${name}`).then(res => res.json())
-            );
-
-            const pokemonDetails = await Promise.all(detailsPromises);
-            console.log("pokemonDetails", pokemonDetails); // This will show the detailed info of each Pokémon
-            setMatches(pokemonDetails);
-        } catch (error) {
-            console.error("Error fetching Pokémon matches:", error);
-        } finally {
-            setLoading(false);
-        }
+        const pokemonDetails = await Promise.all(detailsPromises);
+        console.log("pokemonDetails", pokemonDetails); // This will show the detailed info of each Pokémon
+        setMatches(pokemonDetails);
+      }
+      catch (error) {
+        console.error("Error fetching Pokémon matches:", error);
+      }
+      finally {
+        setLoading(false);
+      }
 
     };
     fetchPokemonMatches();
-}, [habitat, shape, type, zType, setMatches, matches]);
+  }, [habitat, shape, type, zType, setMatches, matches]);
 
 
 
@@ -69,7 +75,7 @@ export default function Matches() {
 
             <ReactTyped
                 startWhenVisible
-                typeSpeed={40}
+                typeSpeed={20}
                 backSpeed={0}
                 loop={false}
                 showCursor={false}
@@ -85,8 +91,8 @@ export default function Matches() {
                 ]}
             />
           </div>
-          <button onClick={() => setGameState("selection")}>ready!</button>
-          <button onClick={() => setGameState("result")}>back</button>
+          <button className="submit" onClick={() => setGameState("selection")}>Ready!</button>
+          <button className="submit" onClick={() => setGameState("result")}>Back</button>
         </div>
         )}
       </>
