@@ -8,13 +8,9 @@ import '../App.css';
 // POST userID and pokemonID and base_happiness
 
 export default function Pokebud() {
-    const [ setLoading ] = useState(false);
+    const [ loading, setLoading ] = useState(false);
     const { name, pokebud, userID } = useContext(QuizContext);
     const [ email, setEmail ] = useState("");
-    console.log("+++++++++++ P O K E B U D +++++++++++");
-    console.log("name", name);
-    console.log("pokebud", pokebud.pokeid);
-    console.log("userID", userID);
 
     async function postEmail(userEmail) {
         const options = {
@@ -26,12 +22,13 @@ export default function Pokebud() {
         }
         try {
           setLoading(true);
-          const response = await fetch('/api/users', options);
+          const response = await fetch(`/api/users/email/${userID}`, options);
           if (response.ok) {
             await response.json();
+            console.log("EMAIL INSERTED")
           } else {
             console.log(response);
-            console.log(`Server Error ${response.status} ${response.statusText}`);
+            console.log(`Server Error ${response.status} ${response.statusText} ${response}`);
           }
         } catch (e) {
           console.log(`Network Error: ${e.message}`)
@@ -40,37 +37,39 @@ export default function Pokebud() {
         }
       }
 
-    // async function postIDs( buddyId, newUserID ) {
-    // const options = {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({
-    //         user_id: newUserID,
-    //         pokemon_id: buddyId
-    //     })
-    // }
-    // try {
-    //     setLoading(true);
-    //     const response = await fetch('/api/api/userpokemon', options);
-    //     if (response.ok) {
-    //     await response.json();
-    //     } else {
-    //     console.log(response);
-    //     console.log(`Server Error ${response.status} ${response.statusText}`);
-    //     }
-    // } catch (e) {
-    //     console.log(`Network Error: ${e.message}`)
-    // } finally {
-    //     setLoading(false);
-    // }
-    // }
+    async function postIDs( buddyId, newUserID ) {
+      const options = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+              user_id: newUserID,
+              pokemon_id: buddyId
+          })
+      }
+      try {
+          setLoading(true);
+          const response = await fetch('/api/userpokemon', options);
+          if (response.ok) {
+            await response.json();
+          } else {
+            console.log(response);
+            console.log(`Server Error ${response.status} ${response.statusText}`);
+          }
+      } catch (e) {
+          console.log(`Network Error: ${e.message}`)
+      } finally {
+          setLoading(false);
+      }
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (email.trim()) {
             await postEmail(email);
-            // await postIDs( pokebud.pokeid, userID );
-            alert("POKEBUDDY SAVED!");
+            await postIDs(pokebud.pokeid, userID)
+            console.log("name", name);
+            console.log("pokebud", pokebud.pokeid);
+            console.log("userID", userID);
         } else {
             alert("uh oh");
         }

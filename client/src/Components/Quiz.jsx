@@ -18,7 +18,6 @@ export default function Quiz() {
   const [ currentScript, setCurrentScript ] = useState("");
   const [ displayQuestion, setDisplayQuestion ] = useState(false);
   const [ quizIntro, setQuizintro ] = useState(false);
-
   const getRandomElement = (arr) => arr ? arr[Math.floor(Math.random() * arr.length)] : null;
 
   const handleAnswer = (selectedAnswer) => {
@@ -69,12 +68,12 @@ export default function Quiz() {
   return (
     <>
       <div className="Questions">
-        <h1>{`${name}'s Pokebuds Application`}</h1>
+        <h1><p>{`${name}'s`}</p> Pokebuds Application</h1>
         <div className="dialogue">
           <div className={quizIntro ? "hide" : "quiz intro"}>
               <ReactTyped
                     startWhenVisible
-                    typeSpeed={40}
+                    typeSpeed={0}
                     backSpeed={0}
                     loop={false}
                     showCursor={false}

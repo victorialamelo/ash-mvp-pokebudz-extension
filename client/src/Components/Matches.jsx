@@ -34,15 +34,16 @@ export default function Matches() {
             const shapePokemon = await res2.json();
             const typePokemon = await res3.json();
             const zTypePokemon = await res4.json();
+
             console.log("T E S T I N G =====================================", habitatPokemon);
             const allPokemonNames = [habitatPokemon, shapePokemon, typePokemon, zTypePokemon ];
 
             const detailsPromises = allPokemonNames.map(name =>
                 fetch(`api/pokemon/pokemon-details/${name}`).then(res => res.json())
             );
+            console.log("detailsPromises ===================================", detailsPromises)
 
             const pokemonDetails = await Promise.all(detailsPromises);
-
             console.log("pokemonDetails", pokemonDetails); // This will show the detailed info of each Pokémon
             setMatches(pokemonDetails);
         } catch (error) {

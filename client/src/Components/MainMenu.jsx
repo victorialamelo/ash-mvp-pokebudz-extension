@@ -11,6 +11,8 @@ export default function MainMenu() {
   const [ showForm, setShowForm ] = useState(false)
   const [ loading, setLoading ] = useState(false)
 
+  const capitalizaName = (name) => name.charAt(0).toUpperCase() + name.slice(1);
+
   async function postName(userName) {
     const options = {
       method: "POST",
@@ -78,7 +80,7 @@ export default function MainMenu() {
                 type="text"
                 placeholder="Enter your name..."
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setName(capitalizaName(e.target.value))}
             />
             <button type="submit">Apply to Adopt</button>
           </form>

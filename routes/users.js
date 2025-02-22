@@ -7,7 +7,7 @@ const db = require("../model/helper");
 // G E T all users =======================
 router.get("/", async function(req, res) {
   try {
-    const results = await db("SELECT * FROM users;");
+    const results = await db("SELECT * FROM users");
     console.log("DATABASE RESULTS:", results); // Debugging
     res.json(results); // Fix .data issue
   } catch (err) {
@@ -36,7 +36,7 @@ router.get("/:id", async function(req, res, next) {
 // P O S T insert user ==========================
 router.post("/", async function(req, res, next) {
   console.log("req.body", req.body);
-  const { name } = req.body;
+    const { name } = req.body;
 
   if (!name) {
     return res.status(400).send({ message: "Name is required" });
@@ -51,7 +51,33 @@ router.post("/", async function(req, res, next) {
   ORDER BY id DESC LIMIT 1`);
     res.status(201).send(result.data);
   } catch (e) {
-    console.error("INSERT ERROR", e);
+    console.error("INSERT ERROR FOR NAME", e);
+    res.status(500).send({ message: e.message });
+  }
+});
+
+// P O S T insert email ==========================
+router.post("/email/:id", async function(req, res, next) {
+  console.log("req.body", req.body);
+    const { email } = req.body;
+    const userID = +req.params.id;
+
+    if (!email) {
+      return res.status(400).send({ message: "Email and userID are required" });
+    }
+
+  const sql = `UPDATE users SET email = '${email}' WHERE id = ${userID}`;;
+
+  try {
+    await db(sql, [email || null]);
+    //Return the updated records
+    const result = await db(`SELECT * FROM users WHERE id = ${userID}`);
+    res.status(201).send(result.data);
+  } catch (e) {
+    console.error("INSERT ERROR FOR EMAIL", e);
+    if (e.code === "ER_DUP_ENTRY" || e.errno === 1062) {
+      return res.status(409).send({ message: "This email is already in use." });
+    }
     res.status(500).send({ message: e.message });
   }
 });
