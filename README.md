@@ -10,9 +10,10 @@ Welcome to PokeBudz! This is an adoption-style app where users are matched with 
 - PokeAPI Integration:
   - The app pulls data from the PokeAPI, including each Pokémon’s ID, name, and a sprite GIF.
   - This data is used to match users with their Pokémon buddy and display their Pokémon’s information.
+- Database Integration:
+  - Once a pokemon is matched to a user, if they'd like to save their match they can enter their email address as their unique identifier. This can later be used for returning user functionality.
 
 ## Future Features
-There are several potential directions you can take to expand PokeBudz. The ideas below build on our existing database table, which tracks Pokémon care details. Choose one or more ideas based on your comfort level and available time.
 
 ### Interactive Dashboard
 
@@ -66,7 +67,35 @@ Access the mySQL CLI:
 
 In the MySQL CLI, type `create database pokebudz;` to create a database in MySQL.
 
-Run `npm run migrate` in your **TERMINAL**, in the **project** folder (not your MySQL CLI! Open a new terminal window for this). This will create a table called 'items' in your database.
+Run `npm run migrate` in your **TERMINAL**, in the **project** folder (not your MySQL CLI! Open a new terminal window for this). This will create a tables called 'users' and 'user_pokemon' in your database. These are the table descriptions (also found in model > init_db.sql
+
+```
+users (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
+
+user_pokemon (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    pokemon_id INT NOT NULL,
+    pokemon_name VARCHAR(100),
+    nickname VARCHAR(100),
+    adopted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_fed TIMESTAMP NULL,
+    last_played TIMESTAMP NULL,
+    last_awake TIMESTAMP NULL,
+    happiness_score INT DEFAULT 0,
+    status VARCHAR(100),
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+```
+
 
 ### 4. Run the Development Servers
 
