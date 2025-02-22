@@ -8,17 +8,17 @@ import Selection from './Components/Selection';
 import Pokebud from './Components/Pokebud';
 import './App.css';
 
-// TO DO
-// Refactor useStates, alot of these can go into the UserInfo object
-// straight away then updated in the DB in a more consistent way
-
 function App() {
-    // Game State === changes the component
+    // Game state === changes the component
     const [gameState, setGameState] = useState("menu");
+
+    // User Info states
     const [name, setName] = useState("");
     const [userID, setUserID] = useState();
     const [answers, setAnswers] = useState({});
     const [zodiac,setZodiac] = useState("");
+
+    // Search criteria to filter pokeAPI
     const [matchingCriteria, setMatchingCriteria] = useState({
       pokemonType: "",
       pokemonHabitat: "",
@@ -26,15 +26,9 @@ function App() {
       zodiacType: "",
     });
     const [matches, setMatches] = useState([]);
+
+    // Users selected Pokebud
     const [pokebud, setPokebud] = useState({});
-    const [userInfo, setUserInfo] = useState({
-      userID: 0,
-      userName: "",
-      userAnswers: {},
-      userCriteria: {},
-      userBday: "",
-      userPokebud: {},
-    });
 
     return (
       <QuizContext.Provider value={{
@@ -45,7 +39,6 @@ function App() {
         matches, setMatches,
         zodiac, setZodiac,
         pokebud, setPokebud,
-        userInfo, setUserInfo,
         userID, setUserID
           }}>
         <div className="App">

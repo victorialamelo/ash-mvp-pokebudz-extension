@@ -1,13 +1,10 @@
 import { useContext, useState } from 'react';
-import { ReactTyped } from "react-typed";
+import { ReactTyped } from "react-typed"; // React Typed library used to animate dialogue
 import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
 
-// TO DO
-// Nice to have - Animate input for smooth transition
-
 export default function MainMenu() {
-  const { setGameState, name, setName, setUserID  } = useContext(QuizContext); // Add setName
+  const { setGameState, name, setName, setUserID  } = useContext(QuizContext);
   const [ showForm, setShowForm ] = useState(false)
   const [ loading, setLoading ] = useState(false)
 
@@ -27,7 +24,7 @@ export default function MainMenu() {
       if (response.ok) {
         const data = await response.json();
         const newUserId = data[0].id;
-        setUserID(newUserId);
+        setUserID(newUserId); // This returns the userID of the user once name is inserted into the database
       } else {
         console.log(response);
         console.log(`Server Error ${response.status} ${response.statusText}`);
@@ -42,10 +39,8 @@ export default function MainMenu() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (name.trim()) {
-        await postName(name);
-        // setUserInfo(newUser => ({ ...newUser, userID: userID }));
-        // console.log("USERS INFO ==========", userInfo);
-        setGameState("questions");
+        await postName(name); // Saves the users name to the database
+        setGameState("questions"); // Changes the gameState to questions to change the page.
     } else {
         alert("um, Ysabella is staring at you. You should probably enter a name.");
     }
@@ -69,7 +64,7 @@ export default function MainMenu() {
                         <p>No pressure.</p>
                         <p>Anyway, my name’s Ysabella. What’s your name?</p>`
                     ]}
-                    onComplete={() => setShowForm(true)}
+                    onComplete={() => setShowForm(true)} // Once the dialogue has completed this will run setShowForm
               />
           </div>
           { showForm && (

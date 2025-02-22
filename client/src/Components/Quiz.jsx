@@ -4,20 +4,14 @@ import { QuestionBank } from '../Helpers/QuestionBank';
 import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
 
-// TO DO
-// Build helper components maybe? Theres a lot happening in this one component
-// Fix h1 spacing
-// Fix calendar min and max obvs you can be born in the future.
-// Nice to have - style calendar input (seems time consuming)
-
 export default function Quiz() {
   const { setGameState, name, setAnswers, setMatchingCriteria } = useContext(QuizContext);
+  const [ displayQuestion, setDisplayQuestion ] = useState(false);
   const [ showForm, setShowForm ] = useState(false);
   const [ currQuestion, setCurrQuestion ] = useState(0);
   const [ optionChosen, setOptionChosen ] = useState("");
-  const [ currentScript, setCurrentScript ] = useState("");
-  const [ displayQuestion, setDisplayQuestion ] = useState(false);
   const [ quizIntro, setQuizintro ] = useState(false);
+
   const getRandomElement = (arr) => arr ? arr[Math.floor(Math.random() * arr.length)] : null;
 
   const handleAnswer = (selectedAnswer) => {
@@ -51,7 +45,6 @@ export default function Quiz() {
     if (currQuestion + 1 < QuestionBank.length) {
       setCurrQuestion(prev => prev + 1);
       setOptionChosen("");
-      setCurrentScript("");
       setDisplayQuestion(true);
       setQuizintro(true);
     }
@@ -92,7 +85,7 @@ export default function Quiz() {
                     backSpeed={0}
                     loop={false}
                     showCursor={false}
-                    strings={[currentScript || QuestionBank[currQuestion].prompt(name)]}
+                    strings={[QuestionBank[currQuestion].prompt(name)]}
                     onComplete={() => setShowForm(true)}
               />
             }
