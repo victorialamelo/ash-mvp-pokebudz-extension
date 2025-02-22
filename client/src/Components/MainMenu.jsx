@@ -11,7 +11,7 @@ export default function MainMenu() {
   const [ showForm, setShowForm ] = useState(false)
   const [ loading, setLoading ] = useState(false)
 
-  const capitalizaName = (name) => name.charAt(0).toUpperCase() + name.slice(1);
+  const capitilize = (name) => name.charAt(0).toUpperCase() + name.slice(1);
 
   async function postName(userName) {
     const options = {
@@ -59,7 +59,7 @@ export default function MainMenu() {
           <div className="dialogue">
               <ReactTyped
                     startWhenVisible
-                    typeSpeed={40}
+                    typeSpeed={0}
                     backSpeed={0}
                     loop={false}
                     showCursor={false}
@@ -80,7 +80,7 @@ export default function MainMenu() {
                 type="text"
                 placeholder="Enter your name..."
                 value={name}
-                onChange={(e) => setName(capitalizaName(e.target.value))}
+                onChange={(e) => setName(capitilize(e.target.value))}
             />
             <button type="submit">Apply to Adopt</button>
           </form>

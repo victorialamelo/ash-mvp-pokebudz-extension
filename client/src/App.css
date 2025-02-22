@@ -27,14 +27,14 @@ h2 {
   border: 6px solid rgba(110, 21, 1, 0.854);
   max-width: 400px;
   min-width: 150px;
-  min-height: 650px;
+  min-height: 640px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   padding: 10px;
   align-items: center;
   background-color: rgba(255, 47, 0, 0.854);
-  margin-top: 10px;
+  margin: 10px;
 }
 
 .dialogue {

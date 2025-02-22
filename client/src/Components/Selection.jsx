@@ -9,6 +9,8 @@ export default function Matches() {
     console.log("matches", matches);
     console.log("answers", answers);
 
+    const capitilize = (name) => name.charAt(0).toUpperCase() + name.slice(1);
+
     const pokebudPick = (id, name, sprite) => {
       setGameState("pokebud");
       setPokebud({pokeid: id, pokename: name, pokesprite: sprite});
@@ -38,7 +40,7 @@ export default function Matches() {
                 <div key={poke.id} className="pokemon-card">
 
                   <img src={poke.sprite} alt={poke.name} />
-                  <button type="button" className="buddy" onClick={() => pokebudPick(poke.id, poke.name, poke.sprite)}>{poke.name}</button>
+                  <button type="button" className="buddy" onClick={() => pokebudPick(poke.id, poke.name, poke.sprite)}>{capitilize(poke.name)}</button>
                 </div>
               ))}
             </div>

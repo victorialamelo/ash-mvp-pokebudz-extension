@@ -61,7 +61,7 @@ export default function Result() {
     <>
     { loading ? "loading" : (
         <div className="Result">
-          <h1>{`${name}'s Pokebud Results`}</h1>
+          <h1>{`${name}'s`} Results</h1>
           <div className="dialogue">
           {
             zodiacDescription && (
@@ -72,8 +72,7 @@ export default function Result() {
                 loop={false}
                 showCursor={false}
                 strings={[
-                  `<h3>Results for ${name}!</h3>
-                  <p><strong>Birthday:</strong> ${answers.birthday}</p>
+                  `<p><strong>Birthday:</strong> ${answers.birthday}</p>
                   <p>Wow, you're a ${zodiac}!</p><p>${zodiacDescription}</p>
                   <p><strong>Personality:</strong> ${answers.shape}</p>
                   <p><strong>Habitat:</strong> ${answers.habitat}</p>

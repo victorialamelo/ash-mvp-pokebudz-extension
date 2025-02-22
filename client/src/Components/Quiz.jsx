@@ -88,7 +88,7 @@ export default function Quiz() {
             { displayQuestion &&
               <ReactTyped
                     startWhenVisible
-                    typeSpeed={40}
+                    typeSpeed={0}
                     backSpeed={0}
                     loop={false}
                     showCursor={false}
