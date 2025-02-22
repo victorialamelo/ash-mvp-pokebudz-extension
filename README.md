@@ -48,6 +48,30 @@ Run `npm install` in the project folder to install dependencies related to Expre
 
 `cd client` and run `npm install` install dependencies related to React (the client).
 
+#### Additional Dependency: React Typed
+PokeBudz uses **React Typed** to animate dialogue across various components. Make sure to install it in the client directory:
+
+`npm install react-typed`
+
+** Example Usage **
+Below is an example of how React Typed is implemented to create engaging dialogue:
+
+```
+import ReactTyped from 'react-typed';
+
+<ReactTyped
+  startWhenVisible
+  typeSpeed={0}
+  backSpeed={0}
+  loop={false}
+  showCursor={false}
+  strings={[
+    `<p>Doot doot.. beep beep...</p>`
+  ]}
+  onComplete={() => setShowForm(true)}
+/>
+```
+
 ### 2. Setup Database
 
 Create `.env` file in project directory and add
