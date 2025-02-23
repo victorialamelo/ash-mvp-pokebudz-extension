@@ -92,7 +92,7 @@ export default function Matches() {
             />
           </div>
           <button className="submit" onClick={() => setGameState("selection")}>Ready!</button>
-          <button className="submit" onClick={() => setGameState("result")}>Back</button>
+          <button className="secondary" onClick={() => setGameState("result")}>Back</button>
         </div>
         )}
       </>

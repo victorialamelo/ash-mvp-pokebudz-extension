@@ -85,7 +85,7 @@ export default function Result() {
         </div>
 
         <button className="submit" onClick={() => setGameState("matches")}>Continue</button>
-        <button className="submit" onClick={() => setGameState("questions")}>Restart Quiz</button>
+        <button className="secondary" onClick={() => setGameState("questions")}>Restart Quiz</button>
       </div>
     )}
     </>
