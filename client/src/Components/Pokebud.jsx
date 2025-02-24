@@ -1,16 +1,17 @@
 import { useContext, useState } from 'react';
 import { ReactTyped } from "react-typed";
 import { QuizContext } from '../Helpers/Contexts';
+import { useWindowSize } from 'react-use'
+import Confetti from 'react-confetti'
 import '../App.css';
 
-// TODO
-// POST user birthday and zodiac sign in the database
-// POST userID and pokemonID and base_happiness
-
 export default function Pokebud() {
+    const { width, height } = useWindowSize()
     const [ loading, setLoading ] = useState(false);
     const { name, pokebud, userID } = useContext(QuizContext);
     const [ email, setEmail ] = useState("");
+    const [ showPokebud, setShowPokebud ] = useState(false);
+    const [ savePokebud, setSavePokebud ] = useState(false);
 
     const capitalize = (name) => name.charAt(0).toUpperCase() + name.slice(1);
 
@@ -68,7 +69,9 @@ export default function Pokebud() {
         event.preventDefault();
         if (email.trim()) {
             await postEmail(email);
-            await postIDs(pokebud.pokeid, userID)
+            await postIDs(pokebud.pokeid, userID);
+            setSavePokebud(true);
+            setLoading(true);
             console.log("name", name);
             console.log("pokebud", pokebud.pokeid);
             console.log("userID", userID);
@@ -79,10 +82,11 @@ export default function Pokebud() {
 
     return (
       <>
-      { loading ? "doot doot" : (
+      <Confetti width={width} height={height} />
         <div className="Selection">
-          <h1>{`${name}'s Pokebud `}</h1>
+          <h1>{`${name}'s Pokebud`}</h1>
           <div className="dialogue">
+          { loading ? "" : (
             <ReactTyped
                 startWhenVisible
                 typeSpeed={20}
@@ -92,25 +96,43 @@ export default function Pokebud() {
                 strings={[
                     `WOOHOOO! Congratulations! ${capitalize(pokebud.pokename)} is your new buddy!`
                 ]}
+                onComplete={() => setShowPokebud(true)}
             />
+          )}
+          {showPokebud && (
             <div className="myBuddy">
                 <div key={pokebud.pokeid} className="pokemon-card">
                     <img src={pokebud.pokesprite} alt={pokebud.pokename} />
                 </div>
             </div>
+          )}
+          { savePokebud &&
+              <ReactTyped
+              startWhenVisible
+              typeSpeed={20}
+              backSpeed={0}
+              loop={false}
+              showCursor={false}
+              strings={[
+                  `<p>${capitalize(pokebud.pokename)} is your saved as your buddy with your email address!</p><p>Coming Soon: Interactive dashboard and/or certificate of adoption</p><p>STAY TUNED!</p>`
+              ]}
+              onComplete={() => setShowPokebud(true)}
+          />
+          }
           </div>
+          {showPokebud && (
           <form className="transition-form" onSubmit={handleSubmit}>
-                <label>Enter your email to save your buddy!</label>
+                <label>Email address</label>
                 <input
                     type="email"
                     placeholder="email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <button type="submit">Save</button>
+                <button type="submit">Save my buddy</button>
             </form>
-        </div>
-        )}
+            )}
+          </div>
       </>
     );
 }

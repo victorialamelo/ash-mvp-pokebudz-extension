@@ -9,12 +9,12 @@ import '../App.css'
 
 export default function Result() {
   const { setGameState, name, answers, setMatchingCriteria, setZodiac, zodiac } = useContext(QuizContext);
-  const [ loading, setLoading ] = useState(false);
   const [ zodiacDescription, setZodiacDescription ] = useState("");
+  const [ showButtons, setShowButtons ] = useState(false);
+  const capitilize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
   useEffect(() => {
     // Analyzes birthday to zodiac
-    setLoading(true);
     if (!answers.birthday) return;
 
     const bday = new Date(answers.birthday);
@@ -48,7 +48,6 @@ export default function Result() {
     if (zodiac) {
       const { description, pokemonType } = getZodiacData(zodiac) || { description: "Unknown sign" };
       setZodiacDescription(description);
-      setLoading(false);
       setMatchingCriteria(zType => ({
         ...zType,
         zodiacType: pokemonType
@@ -59,12 +58,16 @@ export default function Result() {
 
   return (
     <>
-    { loading ? "loading" : (
         <div className="Result">
           <h1>{`${name}'s`} Results</h1>
           <div className="dialogue">
-          {
-            zodiacDescription && (
+          { !zodiacDescription ?
+            <>
+              <div className="loading">beep beep.. dooot dooot.. calculating
+                <img className="snorlax-loading" src="https://media.tenor.com/3Qj2zvHVl40AAAAi/snorlax-sleeping.gif"></img>
+              </div>
+            </>
+            : (
               <ReactTyped
                 startWhenVisible
                 typeSpeed={20}
@@ -74,20 +77,22 @@ export default function Result() {
                 strings={[
                   `<p><strong>Birthday:</strong> ${answers.birthday}</p>
                   <p>Wow, you're a ${zodiac}!</p><p>${zodiacDescription}</p>
-                  <p><strong>Personality:</strong> ${answers.shape}</p>
-                  <p><strong>Habitat:</strong> ${answers.habitat}</p>
-                  <p><srong>Approach:</strong> ${answers.type2}</p>`
+                  <p><strong>Personality:</strong> ${capitilize(answers.shape)}</p>
+                  <p><strong>Habitat:</strong> ${capitilize(answers.habitat)}</p>
+                  <p><strong>Approach:</strong> ${capitilize(answers.type2)}</p>`
                 ]}
-                onComple
+                onComplete={() => setShowButtons(true)}
               />
             )
           }
         </div>
-
-        <button className="submit" onClick={() => setGameState("matches")}>Continue</button>
-        <button className="secondary" onClick={() => setGameState("questions")}>Restart Quiz</button>
+        { showButtons && (
+        <>
+          <button className="submit" onClick={() => setGameState("matches")}>Continue</button>
+          <button className="secondary" onClick={() => setGameState("questions")}>Restart Quiz</button>
+        </>
+        )}
       </div>
-    )}
     </>
   );
 }

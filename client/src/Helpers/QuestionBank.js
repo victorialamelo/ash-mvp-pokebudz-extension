@@ -11,7 +11,7 @@ export const QuestionBank = [
         ]
     },
     {   // SHAPE https://pokeapi.co/api/v2/pokemon-shape
-        prompt: (name) => `Ooooh, okay okay well ${name} — how would your friends describe you?`,
+        prompt: (name) => `Excellente, thats a great approach to life. Next question ${name}  <p>How would your friends describe you?</p>`,
         type: "multiple-choice",
         key: "shape",
         options: [
@@ -22,7 +22,7 @@ export const QuestionBank = [
         ]
     },
     {   // HABITAT https://pokeapi.co/api/v2/pokemon-habitat
-        prompt: (name) => `Excellente ${name} — where do you feel most at home or love to explore?`,
+        prompt: (name) => `Yea that tracks. <p>Next question ${name},</p><p>Where do you feel most at home or love to explore?</p>`,
         type: "multiple-choice",
         key: "habitat",
         options: [
@@ -33,7 +33,7 @@ export const QuestionBank = [
         ]
     },
     {   // ZODIAC TYPE https://pokeapi.co/api/v2/type/
-        prompt: (name) => `Wow thats a great place to explore, last question, here's an easy one ${name}, when is your birthday?`,
+        prompt: (name) => `WHUT! That's also my favorite place! <p>Last question,</p> here's an easy one ${name}, when is your birthday?`,
         type: "text",
         key: "birthday"
     }

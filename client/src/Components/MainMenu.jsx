@@ -48,24 +48,27 @@ export default function MainMenu() {
 
   return (
     <>
-      {loading ? <p>loading</p> : (
+
       <div className="Menu">
           <h1>Welcome!</h1>
           <div className="dialogue">
+            {loading ? ""
+            : (
               <ReactTyped
-                    startWhenVisible
-                    typeSpeed={20}
-                    backSpeed={0}
-                    loop={false}
-                    showCursor={false}
-                    strings={[
-                        `<p>Oh, hey there—wow, you’re really here.</p>
-                        <p>Welcome to the Adopt-a-Pokebud Agency, where we match you with your ideal best bud… assuming, of course, that you’re worthy.</p>
-                        <p>No pressure.</p>
-                        <p>Anyway, my name’s Ysabella. What’s your name?</p>`
-                    ]}
-                    onComplete={() => setShowForm(true)} // Once the dialogue has completed this will run setShowForm
+                startWhenVisible
+                typeSpeed={30}
+                backSpeed={0}
+                loop={false}
+                showCursor={false}
+                strings={[`
+                    <p>Oh, hey there—wow, you’re really here.</p>
+                    <p>Welcome to the Adopt-a-Pokebud Agency, where we match you with your ideal best bud… assuming, of course, that you’re worthy.</p>
+                    <p>No pressure.</p>
+                    <p>Anyway, my name’s Ysabella. What’s your name?</p>
+                `]}
+                onComplete={() => setShowForm(true)} // Once the dialogue has completed this will run setShowForm
               />
+            )}
           </div>
           { showForm && (
           <>
@@ -79,11 +82,10 @@ export default function MainMenu() {
             />
             <button type="submit" className="submit">Apply to Adopt</button>
           </form>
-
           </>
         )}
       </div>
-      )}
+
     </>
   );
 }

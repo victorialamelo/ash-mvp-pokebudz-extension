@@ -3,18 +3,16 @@ import { ReactTyped } from "react-typed";
 import { QuizContext } from '../Helpers/Contexts';
 import '../App.css';
 
-// TO DO
-// URGENT INCONSISTENT API CALLS maybe because you're the same API twice?
-// Don't show buttons until typing is complete onComplete in React Typed
-
 export default function Matches() {
   const { name, matchingCriteria, matches, setMatches, setGameState } = useContext(QuizContext);
+  const [loading, setLoading] = useState(false);
+  const [ ready, setReady ] = useState(false);
   const habitat = matchingCriteria.pokemonHabitat;
   const shape = matchingCriteria.pokemonShape;
   const type = matchingCriteria.pokemonType;
   const zType = matchingCriteria.zodiacType;
-  const [loading, setLoading] = useState(false);
 
+  const capitilize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
   console.log("MATCHES matching criteria", matchingCriteria);
 
   useEffect(() => {
@@ -39,6 +37,7 @@ export default function Matches() {
         const zTypePokemon = await responses[3].json();
 
         const allPokemonNames = [habitatPokemon, shapePokemon, typePokemon, zTypePokemon ];
+
         console.log({allPokemonNames});
         const detailsPromises = allPokemonNames.map(name =>
           fetch(`api/pokemon/pokemon-details/${name}`).then(res => res.json())
@@ -64,15 +63,16 @@ export default function Matches() {
 
     return (
       <>
-      { loading ? (
-        <div className="loading">
-          <p>doot doot doot</p>
-        </div>
-        ) : (
         <div className="Matches">
-          <h1>{`${name}'s Pokebud Matches`}</h1>
+          <h1>{`${name}'s Pokebud Analysis`}</h1>
           <div className="dialogue">
-
+          {loading ?
+            <>
+              <div className="loading">Beep beep.. doot dooot dooot.. calculating
+                <img className="snorlax-loading" src="https://media.tenor.com/3Qj2zvHVl40AAAAi/snorlax-sleeping.gif"></img>
+              </div>
+            </>
+            : (
             <ReactTyped
                 startWhenVisible
                 typeSpeed={20}
@@ -82,19 +82,25 @@ export default function Matches() {
                 strings={[
                     `You matched with
                         <ul>
-                            <li>Pokemon that have the habitat: ${habitat}</li>
-                            <li>Pokemon that have the shape: ${shape}</li>
-                            <li>Pokemon types ${type} and ${zType}</li>
+                            <li>Pokemon that have the habitat: ${capitilize(habitat)}</li>
+                            <li>Pokemon that have the shape: ${capitilize(shape)}</li>
+                            <li>${capitilize(type)} and ${zType} Pokemon types</li>
                         </ul>
                       Ready to see your matches?
                      `
                 ]}
+                onComplete={() => setReady(true)}
             />
+          )}
           </div>
-          <button className="submit" onClick={() => setGameState("selection")}>Ready!</button>
-          <button className="secondary" onClick={() => setGameState("result")}>Back</button>
+          { ready && (
+            <>
+              <button className="submit" onClick={() => setGameState("selection")}>Ready!</button>
+              <button className="secondary" onClick={() => setGameState("result")}>Back</button>
+            </>
+          )}
         </div>
-        )}
+
       </>
     );
 }

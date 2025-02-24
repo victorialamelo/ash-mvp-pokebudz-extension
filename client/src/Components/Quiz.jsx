@@ -80,6 +80,7 @@ export default function Quiz() {
               />
             </div>
             { displayQuestion &&
+            <>
               <ReactTyped
                     startWhenVisible
                     typeSpeed={20}
@@ -89,6 +90,8 @@ export default function Quiz() {
                     strings={[QuestionBank[currQuestion].prompt(name)]}
                     onComplete={() => setShowForm(true)}
               />
+
+            </>
             }
           </div>
           { showForm && (
