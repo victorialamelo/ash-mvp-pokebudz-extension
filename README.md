@@ -2,7 +2,7 @@
 
 Welcome to PokeBudz! This is an adoption-style app where users are matched with a Pokémon based on a set of personality and preference-based questions. After you’ve completed the quiz, you’ll be paired with your new Pokémon buddy. 
 
-## [MVP Presentation Deck](https://docs.google.com/presentation/d/1CTRcdFXeXOaOQQX7ikvh5dBuHB9L4F_hUZ_kXhuLlTc/edit?usp=sharing)
+[MVP Presentation Deck](https://docs.google.com/presentation/d/1CTRcdFXeXOaOQQX7ikvh5dBuHB9L4F_hUZ_kXhuLlTc/edit?usp=sharing)
 
 ## Features
 
