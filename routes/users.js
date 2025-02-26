@@ -61,7 +61,7 @@ router.post("/", async function (req, res, next) {
             ORDER BY id DESC
             LIMIT 1
         `);
-        res.status(201).send(result.data);
+        res.status(201).send(result.data[0]);
     } catch (e) {
         console.error("INSERT ERROR FOR NAME", e);
         res.status(500).send({ message: e.message });
