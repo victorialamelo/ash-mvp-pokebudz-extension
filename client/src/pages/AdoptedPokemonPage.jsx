@@ -56,21 +56,27 @@ function AdoptedPokemonPage() {
   };
 
   return (
-    <div className="content">
+    <div className="Content">
       <h1>Adopted Pokémon</h1>
+
+      <p>Hello, NAME!</p>
 
       {/* Display adopted Pokémon */}
       {adoptedPokemons.length > 0 ? (
-        <div>
+        <>
           {adoptedPokemons.map((pokemon) => (
             <div key={pokemon.id} className="pokemon-card">
-              <img src={pokemon.pokemon_sprite} alt={pokemon.pokemon_name} />
-              <h2>{pokemon.pokemon_name}</h2>
-              <p>Status: {pokemon.status}</p>
-              {/* Add more details as needed */}
+              <h2>
+                #{pokemon.pokemon_id} {pokemon.pokemon_name}
+              </h2>
+              <img
+                style={{ width: "200px", aspectRatio: "1" }}
+                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${pokemon.pokemon_id}.gif`}
+                alt={pokemon.pokemon_name}
+              />
             </div>
           ))}
-        </div>
+        </>
       ) : (
         <p>No adopted Pokémon found.</p>
       )}
