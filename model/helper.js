@@ -20,14 +20,14 @@ module.exports = async function db(query) {
       multipleStatements: true
     });
 
-    con.connect(function(err) {
+    con.connect(function (err) {
       if (err) throw err;
-      console.log("Connected!");
 
-      con.query(query, function(err, result) {
+
+      con.query(query, function (err, result) {
         if (err) {
           results.error = err;
-          console.log(err);
+
           reject(err);
           con.end();
           return;
@@ -36,7 +36,7 @@ module.exports = async function db(query) {
         if (!result.length) {
           if (result.affectedRows === 0) {
             results.error = "Action not complete";
-            console.log(err);
+
             reject(err);
             con.end();
             return;
@@ -47,12 +47,12 @@ module.exports = async function db(query) {
           // results.data.push(result);
         } else if (result[0].constructor.name == "RowDataPacket") {
           // push each row (RowDataPacket) to data
-          console.log("RowDataPacket", result, results);
+
           result.forEach(row => results.data.push(row));
         } else if (result[0].constructor.name == "OkPacket") {
           // push the first item in result list to data (this accounts for situations
           // such as when the query ends with SELECT LAST_INSERT_ID() and returns an insertId)
-          console.log("OkPacket", result);
+
           results.data.push(result[0]);
         } else {
           result.forEach(row => results.data.push(row));

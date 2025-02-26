@@ -1,24 +1,22 @@
 --
 -- Drop Tables
 --
-
 SET foreign_key_checks = 0;
 DROP TABLE if exists user_pokemon;
 DROP TABLE if exists users;
 SET foreign_key_checks = 1;
-
 --
 -- Create Tables
 --
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
+    name VARCHAR(100),
     email VARCHAR(100) UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    password VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
 );
-
 CREATE TABLE user_pokemon (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
