@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-function Login() {
+function LoginPage() {
   const [profile, setProfile] = useState(null);
   const [email, setEmail] = useState(""); // Add state for email
   const [password, setPassword] = useState(""); // Add state for password
@@ -120,4 +120,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;

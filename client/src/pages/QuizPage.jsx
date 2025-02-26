@@ -8,7 +8,7 @@ import Selection from "../Components/Selection";
 import Pokebud from "../Components/Pokebud";
 import "../App.css";
 
-function StartQuiz() {
+function QuizPage() {
   // Game state === changes the component
   const [gameState, setGameState] = useState("menu");
 
@@ -63,4 +63,4 @@ function StartQuiz() {
   );
 }
 
-export default StartQuiz;
+export default QuizPage;

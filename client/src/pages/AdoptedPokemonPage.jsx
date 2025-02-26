@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router"; // Import useParams
 // import jwt_decode from "jwt-decode"; // Import the jwt-decode library
 
-function AdoptedPokemonCard() {
+function AdoptedPokemonPage() {
   const [adoptedPokemons, setAdoptedPokemons] = useState([]);
   const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
@@ -107,4 +107,4 @@ function AdoptedPokemonCard() {
   );
 }
 
-export default AdoptedPokemonCard;
+export default AdoptedPokemonPage;
