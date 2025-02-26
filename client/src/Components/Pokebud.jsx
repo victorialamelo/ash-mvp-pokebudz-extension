@@ -9,7 +9,7 @@ import "../App.css";
 export default function Pokebud() {
   const { width, height } = useWindowSize();
   const [loading, setLoading] = useState(false);
-  const { name, pokebud, userID } = useContext(QuizContext);
+  const { name, pokebud } = useContext(QuizContext);
   const [email, setEmail] = useState("");
   const [showPokebud, setShowPokebud] = useState(false);
   const [savePokebud, setSavePokebud] = useState(false);
@@ -17,20 +17,21 @@ export default function Pokebud() {
 
   const capitalize = (name) => name.charAt(0).toUpperCase() + name.slice(1);
 
-  async function postEmail(userEmail) {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: userEmail,
-      }),
-    };
+  async function createUser(userEmail) {
     try {
       setLoading(true);
-      const response = await fetch(`/api/users/email/${userID}`, options);
+      const response = await fetch(`/api/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          email: userEmail,
+        }),
+      });
       if (response.ok) {
-        await response.json();
-        console.log("EMAIL INSERTED");
+        const user = await response.json();
+        console.log("USER CREATED");
+        return user.id;
       } else {
         console.log(response);
         console.log(
@@ -72,13 +73,13 @@ export default function Pokebud() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (email.trim()) {
-      await postEmail(email);
-      await postIDs(pokebud.pokeid, userID);
+      const userId = await createUser(email);
+      await postIDs(pokebud.pokeid, userId);
       setSavePokebud(true);
       setLoading(true);
       console.log("name", name);
       console.log("pokebud", pokebud.pokeid);
-      console.log("userID", userID);
+      console.log("userID", userId);
     } else {
       alert("uh oh");
     }

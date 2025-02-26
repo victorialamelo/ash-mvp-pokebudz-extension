@@ -40,48 +40,30 @@ router.get('/:userId', async (req, res) => {
 // P O S T insert user ==========================
 router.post("/", async function (req, res, next) {
     console.log("req.body", req.body);
-    const { name } = req.body;
+    const { email, name } = req.body;
 
+    if (!email) {
+        return res.status(400).send({ message: "Email is required" });
+    }
     if (!name) {
         return res.status(400).send({ message: "Name is required" });
     }
 
-    const sql = `INSERT INTO users (name) VALUES ('${name}');`;
+    const sql = `INSERT INTO users (email, name) VALUES ('${email}', '${name}');`;
 
     try {
         await db(sql, [name || null]);
         //Return the updated records
-        const result = await db(` SELECT * FROM users WHERE name = '${name}'
-  ORDER BY id DESC LIMIT 1`);
+        const result = await db(`
+            SELECT *
+            FROM users
+            WHERE email = '${email}'
+            ORDER BY id DESC
+            LIMIT 1
+        `);
         res.status(201).send(result.data);
     } catch (e) {
         console.error("INSERT ERROR FOR NAME", e);
-        res.status(500).send({ message: e.message });
-    }
-});
-
-// P O S T insert email ==========================
-router.post("/email/:id", async function (req, res, next) {
-    console.log("req.body", req.body);
-    const { email } = req.body;
-    const userID = +req.params.id;
-
-    if (!email) {
-        return res.status(400).send({ message: "Email and userID are required" });
-    }
-
-    const sql = `UPDATE users SET email = '${email}' WHERE id = ${userID}`;;
-
-    try {
-        await db(sql, [email || null]);
-        //Return the updated records
-        const result = await db(`SELECT * FROM users WHERE id = ${userID}`);
-        res.status(201).send(result.data);
-    } catch (e) {
-        console.error("INSERT ERROR FOR EMAIL", e);
-        if (e.code === "ER_DUP_ENTRY" || e.errno === 1062) {
-            return res.status(409).send({ message: "This email is already in use." });
-        }
         res.status(500).send({ message: e.message });
     }
 });
