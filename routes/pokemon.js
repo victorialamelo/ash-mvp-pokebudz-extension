@@ -23,7 +23,7 @@ const fetchPokemonFromHabitat = async (habitat) => {
 };
 
 // S H A P E S ================================
-const fetchPokemonFromShape= async (shape) => {
+const fetchPokemonFromShape = async (shape) => {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon-shape/${shape}`);
         const data = await response.json();
@@ -42,7 +42,7 @@ const fetchPokemonFromShape= async (shape) => {
 };
 
 // T Y P E S ==================================
-const fetchPokemonFromType= async (type) => {
+const fetchPokemonFromType = async (type) => {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
         const data = await response.json();
@@ -90,7 +90,7 @@ router.get('/pokemon-habitat/:habitat', async (req, res) => {
         res.json(habitats);
         console.log(habitats)
     } catch (error) {
-      res.status(500).send({ message: 'Error fetching habitat data' });
+        res.status(500).send({ message: 'Error fetching habitat data' });
     }
 });
 
@@ -110,27 +110,27 @@ router.get('/pokemon-shape/:shape', async (req, res) => {
 // T Y P E S router ==============================
 router.get('/pokemon-type/:type', async (req, res) => {
     try {
-      const { type } = req.params;
-      if (!type) return res.status(400).send({ message: 'Type is required' });
-      const types = await fetchPokemonFromType(type);
-      res.json(types);
-      console.log(types)
+        const { type } = req.params;
+        if (!type) return res.status(400).send({ message: 'Type is required' });
+        const types = await fetchPokemonFromType(type);
+        res.json(types);
+        console.log(types)
     } catch (error) {
-      res.status(500).send({ message: 'Error fetching type data' });
+        res.status(500).send({ message: 'Error fetching type data' });
     }
-  });
+});
 
 // D E T A I L S router ============================
 router.get('/pokemon-details/:name', async (req, res) => {
     try {
-      const { name } = req.params;
-      if (!name) return res.status(400).send({ message: 'Name is required' })
-      const details = await fetchPokemonDetails(name);
-      res.json(details);
-      console.log(details)
+        const { name } = req.params;
+        if (!name) return res.status(400).send({ message: 'Name is required' })
+        const details = await fetchPokemonDetails(name);
+        res.json(details);
+        console.log(details)
     } catch (error) {
-      res.status(500).send({ message: 'Error fetching details data' });
+        res.status(500).send({ message: 'Error fetching details data' });
     }
-  });
+});
 
-  module.exports = router;
+module.exports = router;
