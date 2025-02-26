@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { QuizContext } from "../Helpers/Contexts";
 import MainMenu from "../Components/MainMenu";
 import Quiz from "../Components/Quiz";
@@ -30,6 +30,13 @@ function QuizPage() {
   // Users selected Pokebud
   const [pokebud, setPokebud] = useState({});
 
+  const audioRef = useRef();
+
+  useEffect(() => {
+    audioRef.current.volume = 0.1;
+    audioRef.current.play();
+  }, []);
+
   return (
     <QuizContext.Provider
       value={{
@@ -58,6 +65,13 @@ function QuizPage() {
         {gameState === "matches" && <Matches />}
         {gameState === "selection" && <Selection />}
         {gameState === "pokebud" && <Pokebud />}
+        <audio
+          ref={audioRef}
+          style={{ colorScheme: "dark", marginTop: CSS.rem(2) }}
+          src="https://fi.zophar.net/soundfiles/gameboy-gbs/pokemon-red/03%20To%20Bill%27s%20Origin%20~%20From%20Cerulean.mp3"
+          loop
+          controls
+        ></audio>
       </div>
     </QuizContext.Provider>
   );

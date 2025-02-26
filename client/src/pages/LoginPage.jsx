@@ -42,13 +42,8 @@ function LoginPage() {
     }
   }
 
-  const logout = () => {
-    // Remove the token from localstorage
-    localStorage.removeItem("token");
-  };
-
   return (
-    <div className="content">
+    <div className="Content">
       <form action={handleLogin}>
         <input
           type="text"
@@ -71,8 +66,11 @@ function LoginPage() {
         </div>
       </form>
 
-      <button className="btn btn-outline-dark ml-2" onClick={logout}>
-        Log out
+      <button
+        className="btn btn-outline-dark ml-2"
+        onClick={() => navigate("/")}
+      >
+        Back
       </button>
     </div>
   );

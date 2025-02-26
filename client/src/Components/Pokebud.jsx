@@ -8,7 +8,6 @@ import "../App.css";
 
 export default function Pokebud() {
   const { width, height } = useWindowSize();
-  const [loading, setLoading] = useState(false);
   const { name, pokebud } = useContext(QuizContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +19,6 @@ export default function Pokebud() {
 
   async function createUser(email, password) {
     try {
-      setLoading(true);
       const response = await fetch(`/api/users`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -42,23 +40,19 @@ export default function Pokebud() {
       }
     } catch (e) {
       console.log(`Network Error: ${e.message}`);
-    } finally {
-      setLoading(false);
     }
   }
 
-  async function postIDs(buddyId, newUserID) {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user_id: newUserID,
-        pokemon_id: buddyId,
-      }),
-    };
+  async function createUserPokemon(buddyId, newUserID) {
     try {
-      setLoading(true);
-      const response = await fetch("/api/userpokemon", options);
+      const response = await fetch("/api/userpokemon", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: newUserID,
+          pokemon_id: buddyId,
+        }),
+      });
       if (response.ok) {
         await response.json();
       } else {
@@ -67,17 +61,40 @@ export default function Pokebud() {
       }
     } catch (e) {
       console.log(`Network Error: ${e.message}`);
-    } finally {
-      setLoading(false);
     }
+  }
+
+  async function login(email, password) {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Login failed");
+    }
+
+    const body = await response.text();
+    const data = JSON.parse(body);
+
+    console.log("login successful:", data);
+
+    // Save the token in the local storage
+    localStorage.setItem("token", data.token);
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const userId = await createUser(email, password);
-    await postIDs(pokebud.pokeid, userId);
+    await createUserPokemon(pokebud.pokeid, userId);
+    await login(email, password);
     setSavePokebud(true);
-    setLoading(true);
     console.log("name", name);
     console.log("pokebud", pokebud.pokeid);
     console.log("userID", userId);
@@ -88,24 +105,21 @@ export default function Pokebud() {
       <Confetti width={width} height={height} />
 
       <h1>{`${name}'s Pokebud`}</h1>
+
       <div className="dialogue">
-        {loading ? (
-          ""
-        ) : (
-          <ReactTyped
-            startWhenVisible
-            typeSpeed={20}
-            backSpeed={0}
-            loop={false}
-            showCursor={false}
-            strings={[
-              `WOOHOOO! Congratulations! ${capitalize(
-                pokebud.pokename
-              )} is your new buddy!`,
-            ]}
-            onComplete={() => setShowPokebud(true)}
-          />
-        )}
+        <ReactTyped
+          startWhenVisible
+          typeSpeed={20}
+          backSpeed={0}
+          loop={false}
+          showCursor={false}
+          strings={[
+            `WOOHOOO! Congratulations! ${capitalize(
+              pokebud.pokename
+            )} is your new buddy!`,
+          ]}
+          onComplete={() => setShowPokebud(true)}
+        />
         {showPokebud && (
           <div className="myBuddy">
             <div key={pokebud.pokeid} className="pokemon-card">
@@ -123,13 +137,14 @@ export default function Pokebud() {
             strings={[
               `<p>${capitalize(
                 pokebud.pokename
-              )} is your saved as your buddy with your email address!</p><p>Coming Soon: Interactive dashboard and/or certificate of adoption</p><p>STAY TUNED!</p>`,
+              )} is your saved as your buddy with your email address!</p>`,
             ]}
             onComplete={() => setShowPokebud(true)}
           />
         )}
       </div>
-      {showPokebud && (
+
+      {showPokebud && !savePokebud && (
         <form className="transition-form" onSubmit={handleSubmit}>
           <label>Email address</label>
           <input
@@ -151,11 +166,11 @@ export default function Pokebud() {
           <button type="submit">Save my buddy</button>
         </form>
       )}
-      {/* 🔹 New "Explore More" Button */}
+
       {savePokebud && (
         <button
           className="explore-button"
-          onClick={() => navigate("/pokemoncard")}
+          onClick={() => navigate("/userpokemon")}
         >
           Explore more about this Pokémon
         </button>
