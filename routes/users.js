@@ -1,8 +1,11 @@
 const express = require('express');
-const router = express.Router();
+const bcrypt = require("bcrypt");
+
 const db = require("../model/helper");
 
-// http://localhost:5101/api/users/
+const saltRounds = 10;
+
+const router = express.Router();
 
 // G E T all users =======================
 router.get("/", async function (req, res) {
@@ -37,10 +40,11 @@ router.get('/:userId', async (req, res) => {
         res.status(500).send({ message: 'Error fetching adopted Pokémon', error: err.message });
     }
 });
+
 // P O S T insert user ==========================
 router.post("/", async function (req, res, next) {
     console.log("req.body", req.body);
-    const { email, name } = req.body;
+    const { email, name, password } = req.body;
 
     if (!email) {
         return res.status(400).send({ message: "Email is required" });
@@ -48,8 +52,13 @@ router.post("/", async function (req, res, next) {
     if (!name) {
         return res.status(400).send({ message: "Name is required" });
     }
+    if (!password) {
+        return res.status(400).send({ message: "Password is required" });
+    }
 
-    const sql = `INSERT INTO users (email, name) VALUES ('${email}', '${name}');`;
+    const hash = await bcrypt.hash(password, saltRounds);
+
+    const sql = `INSERT INTO users (email, name, password) VALUES ('${email}', '${name}', '${hash}');`;
 
     try {
         await db(sql, [name || null]);

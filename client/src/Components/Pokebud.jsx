@@ -11,21 +11,23 @@ export default function Pokebud() {
   const [loading, setLoading] = useState(false);
   const { name, pokebud } = useContext(QuizContext);
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPokebud, setShowPokebud] = useState(false);
   const [savePokebud, setSavePokebud] = useState(false);
   const navigate = useNavigate();
 
   const capitalize = (name) => name.charAt(0).toUpperCase() + name.slice(1);
 
-  async function createUser(userEmail) {
+  async function createUser(email, password) {
     try {
       setLoading(true);
       const response = await fetch(`/api/users`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: name,
-          email: userEmail,
+          name,
+          email,
+          password,
         }),
       });
       if (response.ok) {
@@ -72,17 +74,13 @@ export default function Pokebud() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (email.trim()) {
-      const userId = await createUser(email);
-      await postIDs(pokebud.pokeid, userId);
-      setSavePokebud(true);
-      setLoading(true);
-      console.log("name", name);
-      console.log("pokebud", pokebud.pokeid);
-      console.log("userID", userId);
-    } else {
-      alert("uh oh");
-    }
+    const userId = await createUser(email, password);
+    await postIDs(pokebud.pokeid, userId);
+    setSavePokebud(true);
+    setLoading(true);
+    console.log("name", name);
+    console.log("pokebud", pokebud.pokeid);
+    console.log("userID", userId);
   };
 
   return (
@@ -137,8 +135,18 @@ export default function Pokebud() {
             <input
               type="email"
               placeholder="email address"
+              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+            />
+
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button type="submit">Save my buddy</button>
           </form>
