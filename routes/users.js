@@ -16,23 +16,27 @@ router.get("/", async function (req, res) {
     }
 });
 
-// G E T user id ==================================
-router.get("/:id", async function (req, res, next) {
-    //your code here
-    const userID = +req.params.id;
-
+// G E T by  user id ==================================
+router.get('/:userId', async (req, res) => {
+    const { userId } = req.params;
     try {
-        const result = await db(`SELECT * FROM users WHERE id = ${userID};`);
+        // Query to fetch all Pokémon data the user has adopted
+        const result = await db(`
+        SELECT user_pokemon.*, pokemon.name AS pokemon_name, pokemon.sprite AS pokemon_sprite 
+        FROM user_pokemon 
+        JOIN pokemon ON user_pokemon.pokemon_id = pokemon.id 
+        WHERE user_pokemon.user_id = ${userId}
+      `);
+
         if (result.data.length) {
             res.status(200).send(result.data);
         } else {
-            return res.status(404).send({ message: "user not found" });
+            return res.status(404).send({ message: "No adopted Pokémon found for this user" });
         }
-    } catch (e) {
-        res.status(500).send({ message: e.message });
+    } catch (err) {
+        res.status(500).send({ message: 'Error fetching adopted Pokémon', error: err.message });
     }
 });
-
 // P O S T insert user ==========================
 router.post("/", async function (req, res, next) {
     console.log("req.body", req.body);

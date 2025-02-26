@@ -11,7 +11,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/start" element={<StartQuiz />} />
         <Route path="/auth/login" element={<Login />} />
-        <Route path="/pokemoncard" element={<AdoptedPokemonCard />} />
+        <Route path="/userpokemon/:id" element={<AdoptedPokemonCard />} />
       </Routes>
     </Router>
   );

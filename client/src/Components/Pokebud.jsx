@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { ReactTyped } from "react-typed";
 import { QuizContext } from "../Helpers/Contexts";
 import { useWindowSize } from "react-use";
+import { useNavigate } from "react-router";
 import Confetti from "react-confetti";
 import "../App.css";
 
@@ -12,6 +13,7 @@ export default function Pokebud() {
   const [email, setEmail] = useState("");
   const [showPokebud, setShowPokebud] = useState(false);
   const [savePokebud, setSavePokebud] = useState(false);
+  const navigate = useNavigate();
 
   const capitalize = (name) => name.charAt(0).toUpperCase() + name.slice(1);
 
@@ -139,6 +141,15 @@ export default function Pokebud() {
             />
             <button type="submit">Save my buddy</button>
           </form>
+        )}
+        {/* 🔹 New "Explore More" Button */}
+        {savePokebud && (
+          <button
+            className="explore-button"
+            onClick={() => navigate("/pokemoncard")}
+          >
+            Explore more about this Pokémon
+          </button>
         )}
       </div>
     </>

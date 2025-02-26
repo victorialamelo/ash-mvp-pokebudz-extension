@@ -31,30 +31,66 @@ router.post("/register", async (req, res) => {
 
     }
 });
+
+// POST /login - Login user and generate token
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const results = await db(
-            `SELECT * FROM users WHERE email = "${email}"`
-        );
-        const user = results.data[0];
-        if (user) {
-            const user_id = user.id;
+        // Query database to find the user by email
+        const results = await db(`SELECT * FROM users WHERE email = "${email}"`);
+        const user = results.data[0]; // Assuming results.data contains the query result
 
-            const correctPassword = await bcrypt.compare(password, user.password);
-
-            if (!correctPassword) throw new Error("Incorrect password");
-
-            var token = jwt.sign({ user_id }, supersecret);
-            res.send({ message: "Login successful, here is your token", token });
-        } else {
+        if (!user) {
             throw new Error("User does not exist");
         }
+
+        // Compare the provided password with the stored hashed password
+        const correctPassword = await bcrypt.compare(password, user.password);
+
+        if (!correctPassword) {
+            throw new Error("Incorrect password");
+        }
+
+        // Generate a JWT token with user_id as payload
+        const token = jwt.sign({ user_id: user.id }, supersecret);
+
+        // Respond with the generated token and userId
+        res.json({
+            message: "Login successful",
+            token,
+            userId: user.id,  // Include userId in the response
+        });
     } catch (err) {
         res.status(400).send({ message: err.message });
     }
 });
+
+
+// router.post("/login", async (req, res) => {
+//     const { email, password } = req.body;
+
+//     try {
+//         const results = await db(
+//             `SELECT * FROM users WHERE email = "${email}"`
+//         );
+//         const user = results.data[0];
+//         if (user) {
+//             const user_id = user.id;
+
+//             const correctPassword = await bcrypt.compare(password, user.password);
+
+//             if (!correctPassword) throw new Error("Incorrect password");
+
+//             var token = jwt.sign({ user_id }, supersecret);
+//             res.send({ message: "Login successful, here is your token", token });
+//         } else {
+//             throw new Error("User does not exist");
+//         }
+//     } catch (err) {
+//         res.status(400).send({ message: err.message });
+//     }
+// });
 
 router.get("/profile", userShouldBeLoggedIn, (req, res) => {
     res.send({ message: `hello, user ${req.userId}. this is your private profile page.` });

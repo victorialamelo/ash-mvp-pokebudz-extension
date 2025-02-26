@@ -61,11 +61,12 @@ function Login() {
       const body = await response.text();
       const data = JSON.parse(body);
 
-      console.log("Login successful:", data);
+      console.log("login successful:", data);
 
       // Save the token in the local storage
       localStorage.setItem("token", data.token);
-      navigate("/pokemoncard");
+      localStorage.setItem("userId", data.userId); // store the userId
+      navigate(`/userpokemon/${data.userId}`); // redirect to /user/{userId}
     } catch (e) {
       console.log(e);
     }
@@ -76,33 +77,13 @@ function Login() {
     localStorage.removeItem("token");
   };
 
-  const requestData = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("No token available");
-      }
-
-      const response = await fetch("/api/auth/profile", {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-      setProfile(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <div>
       <form
         onSubmit={(e) => {
-          e.preventDefault(); // FIX: Prevent form default behavior
+          e.preventDefault();
           const formData = new FormData(e.target);
-          handleLogin(formData); // FIX: Pass formData correctly
+          handleLogin(formData);
         }}
       >
         <input
@@ -135,18 +116,6 @@ function Login() {
       <button className="btn btn-outline-dark ml-2" onClick={logout}>
         Log out
       </button>
-
-      <div className="text-center p-4">
-        <button className=" btn btn-outline-primary" onClick={requestData}>
-          Request protected data
-        </button>
-      </div>
-
-      {profile && (
-        <div className="text-center p-4">
-          <div className="alert">{profile.message}</div>
-        </div>
-      )}
     </div>
   );
 }
