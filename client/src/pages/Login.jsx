@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 function Login() {
   const [profile, setProfile] = useState(null);
   const [email, setEmail] = useState(""); // Add state for email
   const [password, setPassword] = useState(""); // Add state for password
+  const navigate = useNavigate();
 
   /**
    * Handles user registration
@@ -59,10 +61,11 @@ function Login() {
       const body = await response.text();
       const data = JSON.parse(body);
 
-      console.log(data);
+      console.log("Login successful:", data);
 
       // Save the token in the local storage
       localStorage.setItem("token", data.token);
+      navigate("/pokemoncard");
     } catch (e) {
       console.log(e);
     }
@@ -95,13 +98,18 @@ function Login() {
 
   return (
     <div>
-      <form onSubmit={handleLogin}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault(); // FIX: Prevent form default behavior
+          const formData = new FormData(e.target);
+          handleLogin(formData); // FIX: Pass formData correctly
+        }}
+      >
         <input
           type="text"
           name="email"
           className="form-control mb-2"
           placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)} // Set email on change
           required
         />
         <input
@@ -109,24 +117,24 @@ function Login() {
           name="password"
           className="form-control mb-2"
           placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)} // Set password on change
           required
         />
         <div className="d-flex gap-2 justify-content-center">
-          <button className="btn btn-primary">Log in</button>
+          <button type="submit" className="btn btn-primary">
+            Log in
+          </button>
         </div>
       </form>
 
-      {/* Register button to trigger registration */}
       <div className="d-flex gap-2 justify-content-center mt-3">
         <button className="btn btn-outline-success" onClick={handleRegister}>
           Register
         </button>
       </div>
 
-      <form action={logout}>
-        <button className="btn btn-outline-dark ml-2">Log out</button>
-      </form>
+      <button className="btn btn-outline-dark ml-2" onClick={logout}>
+        Log out
+      </button>
 
       <div className="text-center p-4">
         <button className=" btn btn-outline-primary" onClick={requestData}>
