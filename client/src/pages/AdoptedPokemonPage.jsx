@@ -56,7 +56,7 @@ function AdoptedPokemonPage() {
   };
 
   return (
-    <div>
+    <div className="content">
       <h1>Adopted Pokémon</h1>
 
       {/* Display adopted Pokémon */}

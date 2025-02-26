@@ -48,7 +48,7 @@ function LoginPage() {
   };
 
   return (
-    <div>
+    <div className="content">
       <form action={handleLogin}>
         <input
           type="text"

@@ -22,43 +22,41 @@ export default function MainMenu() {
 
   return (
     <>
-      <div className="Menu">
-        <h1>Welcome!</h1>
-        <div className="dialogue">
-          <ReactTyped
-            startWhenVisible
-            typeSpeed={30}
-            backSpeed={0}
-            loop={false}
-            showCursor={false}
-            strings={[
-              `
+      <h1>Welcome!</h1>
+      <div className="dialogue">
+        <ReactTyped
+          startWhenVisible
+          typeSpeed={30}
+          backSpeed={0}
+          loop={false}
+          showCursor={false}
+          strings={[
+            `
                     <p>Oh, hey there—wow, you’re really here.</p>
                     <p>Welcome to the Adopt-a-Pokebud Agency, where we match you with your ideal best bud… assuming, of course, that you’re worthy.</p>
                     <p>No pressure.</p>
                     <p>Anyway, my name’s Ysabella. What’s your name?</p>
                 `,
-            ]}
-            onComplete={() => setShowForm(true)} // Once the dialogue has completed this will run setShowForm
-          />
-        </div>
-        {showForm && (
-          <>
-            <form className="transition-form" onSubmit={handleSubmit}>
-              <label>Name</label>
-              <input
-                type="text"
-                placeholder="Enter your name..."
-                value={name}
-                onChange={(e) => setName(capitalize(e.target.value))}
-              />
-              <button type="submit" className="submit">
-                Apply to Adopt
-              </button>
-            </form>
-          </>
-        )}
+          ]}
+          onComplete={() => setShowForm(true)} // Once the dialogue has completed this will run setShowForm
+        />
       </div>
+      {showForm && (
+        <>
+          <form className="transition-form" onSubmit={handleSubmit}>
+            <label>Name</label>
+            <input
+              type="text"
+              placeholder="Enter your name..."
+              value={name}
+              onChange={(e) => setName(capitalize(e.target.value))}
+            />
+            <button type="submit" className="submit">
+              Apply to Adopt
+            </button>
+          </form>
+        </>
+      )}
     </>
   );
 }

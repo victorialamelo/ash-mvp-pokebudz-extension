@@ -4,7 +4,7 @@ function HomePage() {
   const navigate = useNavigate();
 
   return (
-    <div className="home">
+    <div className="Content">
       <h1>Welcome to the Pokebudz!</h1>
       <button onClick={() => navigate("/start")}>Start Quiz</button>
       <section className="buttons-position-center">

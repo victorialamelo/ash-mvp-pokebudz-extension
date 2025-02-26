@@ -51,7 +51,7 @@ function QuizPage() {
         setUserID,
       }}
     >
-      <div className="App">
+      <div className="Content">
         {gameState === "menu" && <MainMenu />}
         {gameState === "questions" && <Quiz />}
         {gameState === "result" && <Result />}

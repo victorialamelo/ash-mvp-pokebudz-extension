@@ -7,14 +7,16 @@ import AdoptedPokemonPage from "./pages/AdoptedPokemonPage"; // import Login pag
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/start" element={<QuizPage />} />
-        <Route path="/auth/login" element={<LoginPage />} />
-        <Route path="/userpokemon" element={<AdoptedPokemonPage />} />
-      </Routes>
-    </Router>
+    <div className="App">
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/start" element={<QuizPage />} />
+          <Route path="/auth/login" element={<LoginPage />} />
+          <Route path="/userpokemon" element={<AdoptedPokemonPage />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
