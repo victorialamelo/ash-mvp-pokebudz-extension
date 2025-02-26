@@ -1,20 +1,16 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router"; // Import useParams
-// import jwt_decode from "jwt-decode"; // Import the jwt-decode library
+import { useNavigate } from "react-router"; // Import useParams
+import { jwtDecode, InvalidTokenError } from "jwt-decode"; // https://www.npmjs.com/package/jwt-decode
 
 function AdoptedPokemonPage() {
   const [adoptedPokemons, setAdoptedPokemons] = useState([]);
-  const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
-  const { userId } = useParams(); // Get userId from the URL
 
   useEffect(() => {
-    if (userId) {
-      fetchAdoptedPokemons(userId); // Fetch adopted Pokémon for the given userId
-    }
-  }, [userId]);
+    fetchAdoptedPokemons(); // Fetch adopted Pokémon
+  }, []);
 
-  const fetchAdoptedPokemons = async (userId) => {
+  const fetchAdoptedPokemons = async () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -23,9 +19,12 @@ function AdoptedPokemonPage() {
         return;
       }
 
-      // Optionally decode token to verify the user, if needed
-      // const decodedToken = jwt_decode(token);
-      // const userIdFromToken = decodedToken.user_id;
+      const tokenPayload = jwtDecode(token);
+
+      const userId = tokenPayload.user_id;
+      if (!userId) {
+        throw new InvalidTokenError("token payload does not contain user_id");
+      }
 
       const response = await fetch(`/api/userpokemon/${userId}`, {
         headers: {
@@ -40,7 +39,13 @@ function AdoptedPokemonPage() {
       const data = await response.json();
       setAdoptedPokemons(data); // No need to access `pokemons` since data directly contains the Pokémon list
     } catch (error) {
-      console.error("Error fetching adopted Pokémon:", error);
+      console.error(error);
+
+      if (error instanceof InvalidTokenError) {
+        localStorage.removeItem("token");
+        navigate("/");
+        return;
+      }
     }
   };
 
@@ -48,26 +53,6 @@ function AdoptedPokemonPage() {
   const handleLogout = () => {
     localStorage.removeItem("token"); // removes token
     navigate("/"); // redirects user to the homepage
-  };
-
-  const requestData = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("No token available");
-      }
-
-      const response = await fetch("/api/auth/profile", {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-      setProfile(data);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -89,17 +74,7 @@ function AdoptedPokemonPage() {
       ) : (
         <p>No adopted Pokémon found.</p>
       )}
-      <div className="text-center p-4">
-        <button className=" btn btn-outline-primary" onClick={requestData}>
-          Request protected data
-        </button>
-      </div>
 
-      {profile && (
-        <div className="text-center p-4">
-          <div className="alert">{profile.message}</div>
-        </div>
-      )}
       <button className="btn btn-danger mt-3" onClick={handleLogout}>
         Logout
       </button>

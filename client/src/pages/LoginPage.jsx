@@ -9,36 +9,6 @@ function LoginPage() {
   const navigate = useNavigate();
 
   /**
-   * Handles user registration
-   */
-  async function handleRegister() {
-    try {
-      console.log("Registering with email:", email, "password:", password);
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Registration failed");
-      }
-
-      const data = await response.json();
-      console.log(data.message); // Log success message
-
-      alert("Registration successful! You can now log in.");
-    } catch (e) {
-      console.log(e);
-      alert("Error: " + e.message); // Show error message
-    }
-  }
-  /**
    * Handles the login form submission
    */
   async function handleLogin(formData) {
@@ -65,8 +35,8 @@ function LoginPage() {
 
       // Save the token in the local storage
       localStorage.setItem("token", data.token);
-      localStorage.setItem("userId", data.userId); // store the userId
-      navigate(`/userpokemon/${data.userId}`); // redirect to /user/{userId}
+
+      navigate(`/userpokemon`);
     } catch (e) {
       console.log(e);
     }
@@ -79,13 +49,7 @@ function LoginPage() {
 
   return (
     <div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(e.target);
-          handleLogin(formData);
-        }}
-      >
+      <form action={handleLogin}>
         <input
           type="text"
           name="email"
@@ -106,12 +70,6 @@ function LoginPage() {
           </button>
         </div>
       </form>
-
-      <div className="d-flex gap-2 justify-content-center mt-3">
-        <button className="btn btn-outline-success" onClick={handleRegister}>
-          Register
-        </button>
-      </div>
 
       <button className="btn btn-outline-dark ml-2" onClick={logout}>
         Log out
