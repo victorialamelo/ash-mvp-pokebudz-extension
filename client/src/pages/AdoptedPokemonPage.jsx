@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router"; // Import useParams
+import { useNavigate } from "react-router";
 import { jwtDecode, InvalidTokenError } from "jwt-decode"; // https://www.npmjs.com/package/jwt-decode
 
 function AdoptedPokemonPage() {
@@ -7,7 +7,7 @@ function AdoptedPokemonPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchAdoptedPokemons(); // Fetch adopted Pokémon
+    fetchAdoptedPokemons(); // fetch adopted Pokémon
   }, []);
 
   const fetchAdoptedPokemons = async () => {
@@ -37,7 +37,7 @@ function AdoptedPokemonPage() {
       }
 
       const data = await response.json();
-      setAdoptedPokemons(data); // No need to access `pokemons` since data directly contains the Pokémon list
+      setAdoptedPokemons(data);
     } catch (error) {
       console.error(error);
 
@@ -59,9 +59,9 @@ function AdoptedPokemonPage() {
     <div className="Content">
       <h1>Adopted Pokémon</h1>
 
-      <p>Hello, NAME!</p>
+      <p>Hello, USER NAME!</p>
 
-      {/* Display adopted Pokémon */}
+      {/* display adopted Pokémon */}
       {adoptedPokemons.length > 0 ? (
         <>
           {adoptedPokemons.map((pokemon) => (

@@ -1,16 +1,10 @@
-/* eslint-disable no-unused-vars */
-import { useState } from "react";
 import { useNavigate } from "react-router";
 
 function LoginPage() {
-  const [profile, setProfile] = useState(null);
-  const [email, setEmail] = useState(""); // Add state for email
-  const [password, setPassword] = useState(""); // Add state for password
   const navigate = useNavigate();
 
-  /**
-   * Handles the login form submission
-   */
+  // form action handles the login form submission
+
   async function handleLogin(formData) {
     try {
       const response = await fetch("/api/auth/login", {
@@ -33,7 +27,7 @@ function LoginPage() {
 
       console.log("login successful:", data);
 
-      // Save the token in the local storage
+      // save the token in the local storage
       localStorage.setItem("token", data.token);
 
       navigate(`/userpokemon`);

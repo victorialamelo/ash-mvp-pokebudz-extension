@@ -34,7 +34,7 @@ function QuizPage() {
 
   useEffect(() => {
     audioRef.current.volume = 0.1;
-    audioRef.current.play();
+    audioRef.current.play(); //autoplay after component is mounted
   }, []);
 
   return (
@@ -67,7 +67,7 @@ function QuizPage() {
         {gameState === "pokebud" && <Pokebud />}
         <audio
           ref={audioRef}
-          style={{ colorScheme: "dark", marginTop: CSS.rem(2) }}
+          style={{ colorScheme: "dark", marginTop: "2rem" }}
           src="https://fi.zophar.net/soundfiles/gameboy-gbs/pokemon-red/03%20To%20Bill%27s%20Origin%20~%20From%20Cerulean.mp3"
           loop
           controls

@@ -137,7 +137,7 @@ export default function Pokebud() {
             strings={[
               `<p>${capitalize(
                 pokebud.pokename
-              )} is your saved as your buddy with your email address!</p>`,
+              )} is now saved as your buddy with your email address and password!</p>`,
             ]}
             onComplete={() => setShowPokebud(true)}
           />

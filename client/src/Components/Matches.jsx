@@ -13,7 +13,7 @@ export default function Matches() {
   const type = matchingCriteria.pokemonType;
   const zType = matchingCriteria.zodiacType;
 
-  const capitilize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
+  const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
   console.log("MATCHES matching criteria", matchingCriteria);
 
   useEffect(() => {
@@ -86,13 +86,13 @@ export default function Matches() {
             strings={[
               `You matched with
                         <ul>
-                            <li>Pokemon that have the habitat: ${capitilize(
+                            <li>Pokemon that have the habitat: ${capitalize(
                               habitat
                             )}</li>
-                            <li>Pokemon that have the shape: ${capitilize(
+                            <li>Pokemon that have the shape: ${capitalize(
                               shape
                             )}</li>
-                            <li>${capitilize(
+                            <li>${capitalize(
                               type
                             )} and ${zType} Pokemon types</li>
                         </ul>
