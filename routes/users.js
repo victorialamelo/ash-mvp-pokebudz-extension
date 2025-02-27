@@ -23,24 +23,19 @@ router.get("/", async function (req, res) {
 router.get('/:userId', async (req, res) => {
     const { userId } = req.params;
     try {
-        // Query to fetch all Pokémon data the user has adopted
         const result = await db(`
-        SELECT user_pokemon.*, pokemon.name AS pokemon_name, pokemon.sprite AS pokemon_sprite 
-        FROM user_pokemon 
-        JOIN pokemon ON user_pokemon.pokemon_id = pokemon.id 
-        WHERE user_pokemon.user_id = ${userId}
-      `);
+            SELECT name FROM users WHERE id = ${userId}
+        `);
 
         if (result.data.length) {
-            res.status(200).send(result.data);
+            res.status(200).send(result.data[0]);
         } else {
-            return res.status(404).send({ message: "No adopted Pokémon found for this user" });
+            return res.status(404).send({ message: "User not found" });
         }
     } catch (err) {
-        res.status(500).send({ message: 'Error fetching adopted Pokémon', error: err.message });
+        res.status(500).send({ message: 'Error fetching user data', error: err.message });
     }
 });
-
 // P O S T insert user ==========================
 router.post("/", async function (req, res, next) {
     console.log("req.body", req.body);

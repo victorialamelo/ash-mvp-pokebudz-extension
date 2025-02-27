@@ -5,13 +5,14 @@ import { jwtDecode, InvalidTokenError } from "jwt-decode"; // https://www.npmjs.
 function AdoptedPokemonPage() {
   const [adoptedPokemon, setAdoptedPokemon] = useState(null); // Store the single adopted Pokémon
   const [pokemonDetails, setPokemonDetails] = useState(null); // Store Pokémon details
+  const [userName, setUserName] = useState(""); // Store the user name
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchAdoptedPokemon(); // fetch adopted Pokémon
+    fetchAdoptedPokemon(); // fetch adopted Pokémon and user name
   }, []);
 
-  // fetch adopted Pokémon for the logged in user_id
+  // fetch adopted Pokémon for the logged-in user_id and user name
   const fetchAdoptedPokemon = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -26,6 +27,8 @@ function AdoptedPokemonPage() {
       if (!userId)
         throw new InvalidTokenError("Invalid token: user_id missing");
 
+      await fetchUserName(userId); // fetch user name
+
       const response = await fetch(`/api/userpokemon/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -33,12 +36,28 @@ function AdoptedPokemonPage() {
       if (!response.ok) throw new Error("Failed to fetch adopted Pokémon");
 
       const data = await response.json();
-      const pokemon = data[0]; // for now, assuming one Pokémon will be displayed on the data array
+      const pokemon = data[0]; // for now, assuming only one Pokémon will be displayed from the data array
       setAdoptedPokemon(pokemon);
       fetchPokemonDetails(pokemon.pokemon_id);
     } catch (error) {
       console.error("Error fetching adopted Pokémon:", error);
       alert("An error occurred while fetching your Pokémon.");
+    }
+  };
+
+  // fetch user name using user_id
+  const fetchUserName = async (userId) => {
+    try {
+      const response = await fetch(`/api/users/${userId}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+
+      const data = await response.json();
+      setUserName(data.name || "Unknown User"); // or... if name is null
+    } catch (error) {
+      console.error("Error fetching user name:", error);
+      setUserName("Unknown User");
     }
   };
 
@@ -67,8 +86,7 @@ function AdoptedPokemonPage() {
   return (
     <div className="Content">
       <h1>Adopted Pokémon</h1>
-      <p>Hello, USER NAME!</p>
-
+      <p>Hello, {userName}!</p>
       {adoptedPokemon && pokemonDetails ? (
         <div className="pokemon-card">
           <h2>
@@ -107,7 +125,6 @@ function AdoptedPokemonPage() {
       ) : (
         <p>Loading Pokémon details...</p>
       )}
-
       <button className="btn btn-danger mt-3" onClick={handleLogout}>
         Logout
       </button>

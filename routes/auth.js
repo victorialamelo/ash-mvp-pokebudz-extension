@@ -30,7 +30,12 @@ router.post("/login", async (req, res) => {
         }
 
         // generate a JWT token with user_id as payload
-        const token = jwt.sign({ user_id: user.id }, supersecret);
+        const payload = {
+            user_id: user.id,
+            name: user.name // name added to the payload
+        };
+
+        const token = jwt.sign(payload, supersecret);
 
         // respond with the generated token and userId
         res.json({
