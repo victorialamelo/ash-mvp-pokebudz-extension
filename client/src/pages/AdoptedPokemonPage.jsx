@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { jwtDecode, InvalidTokenError } from "jwt-decode"; // https://www.npmjs.com/package/jwt-decode
+import html2canvas from "html2canvas";
 
 function AdoptedPokemonPage() {
   const [adoptedPokemon, setAdoptedPokemon] = useState(null); // Store the single adopted Pokémon
@@ -54,7 +55,7 @@ function AdoptedPokemonPage() {
       }
 
       const data = await response.json();
-      setUserName(data.name || "Unknown User"); // or... if name is null
+      setUserName(data.name || "Unknown User"); // or...if name is null
     } catch (error) {
       console.error("Error fetching user name:", error);
       setUserName("Unknown User");
@@ -81,6 +82,22 @@ function AdoptedPokemonPage() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");
+  };
+
+  // const downloadAdoptionCertificate = () => {
+  //   navigator.share({
+  //     url: "https://pokebudz-ash.com",
+  //     title:
+  //       "Check out my Poke Buddy! Want to find out yours? Visit Pokebudz and take the Quiz now ⚡",
+  //   });
+  // };
+
+  const shareWithFriend = () => {
+    navigator.share({
+      url: "https://pokebudz-ash.com",
+      title:
+        "Check out my Poke Buddy! Want to find out yours? Visit Pokebudz and take the Quiz now ⚡",
+    });
   };
 
   return (
@@ -127,6 +144,15 @@ function AdoptedPokemonPage() {
       )}
       <button className="btn btn-danger mt-3" onClick={handleLogout}>
         Logout
+      </button>
+      {/* <button
+        className="btn btn-danger mt-3"
+        onClick={downloadAdoptionCertificate}
+      >
+        Download adoption certificate
+      </button> */}
+      <button className="btn btn-danger mt-3" onClick={shareWithFriend}>
+        Share it with a friend!
       </button>
     </div>
   );
