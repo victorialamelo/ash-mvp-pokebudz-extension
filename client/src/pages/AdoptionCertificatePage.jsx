@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import { hasSession, getCurrentSession } from "../session";
 import {
   backendGetUser,
@@ -41,8 +41,6 @@ function AdoptedCertificatePage() {
     }
   };
 
-  const shareWithFriend = () => {};
-
   return (
     <div className="certificate-container">
       <header>Pokémon Adoption Certificate</header>
@@ -81,6 +79,11 @@ function AdoptedCertificatePage() {
         {" "}
         Share with a friend!
       </button>
+      <section className="buttons-position-center">
+        <Link to="/userpokemon">
+          <button className="btn btn-danger mt-3">Back</button>
+        </Link>
+      </section>
     </div>
   );
 }
