@@ -7,10 +7,10 @@ function HomePage() {
   return (
     <div className="Content">
       <h1>Welcome to the Pokebudz!</h1>
-      <h4>
+      <h3>
         Eager to meet your perfect Pokémon partner? Take the quiz now and find
         your new adventure buddy!
-      </h4>
+      </h3>
       <button onClick={() => navigate("/start")}>Start Quiz</button>
       <section className="buttons-position-center">
         <Link to="./auth/login">
@@ -19,16 +19,17 @@ function HomePage() {
           </button>
         </Link>
       </section>
-
-      {/* Add the GIF below the buttons */}
-      <div className="gif-container">
+      <div>
         <img
           src="https://i.gifer.com/5FBP.gif"
           alt="Ash and Pikachu GIF"
-          style={{ width: "280px", height: "auto", marginTop: "60px" }}
+          style={{
+            width: "280px",
+            height: "auto",
+            marginTop: "90px",
+          }}
         />
       </div>
-
       <Tooltip
         id="login-tooltip"
         place="top"

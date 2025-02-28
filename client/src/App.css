@@ -61,7 +61,7 @@ h2 {
 }
 
 h3 {
-  font-size: 13px;
+  font-size: 15px;
   color: black;
 }
 
@@ -277,7 +277,7 @@ button:active {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: end;
+  align-items: center;
   height: 100%;
   padding: 5px;
 }
@@ -297,11 +297,8 @@ button:active {
 }
 
 .pokemon-details {
-  font-size: 16px;
+  font-size: 15px;
   color: black;
-  justify-content: left;
-  align-items: left;
-  align-content: left;
 }
 
 .pokemon-name-details {

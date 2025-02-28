@@ -15,7 +15,10 @@ function App() {
           <Route path="/start" element={<QuizPage />} />
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/userpokemon" element={<AdoptedPokemonPage />} />
-          <Route path="/certificate" element={<AdoptionCertificatePage />} />
+          <Route
+            path="/userpokemon/certificate"
+            element={<AdoptionCertificatePage />}
+          />
         </Routes>
       </Router>
     </div>

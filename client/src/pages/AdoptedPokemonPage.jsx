@@ -54,8 +54,8 @@ function AdoptedPokemonPage() {
       <h1>Adopted Pokébud</h1>
       <p>Hello, {userName}!</p>
       <h3>
-        Hear your Pokébud's unique cry and discover all about its powers and
-        traits!
+        Hear your Pokébud's unique cry and discover all about its
+        characteristics and powers!
       </h3>
       {adoptedPokemon && pokemonDetails ? (
         <div className="pokemon-card">

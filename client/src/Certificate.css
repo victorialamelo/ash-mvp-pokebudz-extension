@@ -1,0 +1,72 @@
+/* Overall container for the certificate */
+.certificate-container {
+  width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 5px solid #a5483c; /* Green border */
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Arial", sans-serif;
+  text-align: center;
+  background-image: url("https://your-image-url.com/pokemon-background.png"); /* Optional background image */
+  background-size: cover;
+}
+
+/* Header with title of the certificate */
+header {
+  font-size: 28px;
+  font-weight: bold;
+  color: #b62525;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+/* Main content section */
+.certificate-content {
+  padding: 40px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/* User name text */
+.certificate-content p {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 0;
+}
+
+/* Pokémon name and ID */
+h4 {
+  font-size: 24px;
+  color: #b62525;
+  font-weight: bold;
+}
+
+.pokemon-certificate-img {
+  width: 220px;
+  height: auto;
+  border-radius: 100px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Info about the Pokémon */
+.certificate-info {
+  font-size: 16px;
+  color: #555;
+  margin-top: 20px;
+}
+
+.certificate-info strong {
+  font-weight: bold;
+}
+
+/* Footer with congratulatory message */
+footer {
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+  margin-top: 30px;
+}
