@@ -4,6 +4,14 @@ import { QuizContext } from "../Helpers/Contexts";
 import { useWindowSize } from "react-use";
 import { useNavigate } from "react-router";
 import Confetti from "react-confetti";
+
+import {
+  backendCreateUser,
+  backendCreateUserPokemon,
+  backendAuthLogin,
+} from "../backend";
+import { hasSession, saveSession } from "../session";
+
 import "../App.css";
 
 export default function Pokebud() {
@@ -17,87 +25,31 @@ export default function Pokebud() {
 
   const capitalize = (name) => name.charAt(0).toUpperCase() + name.slice(1);
 
-  async function createUser(email, password) {
-    try {
-      const response = await fetch(`/api/users`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
-      if (response.ok) {
-        const user = await response.json();
-        console.log("USER CREATED");
-        return user.id;
-      } else {
-        console.log(response);
-        console.log(
-          `Server Error ${response.status} ${response.statusText} ${response}`
-        );
-      }
-    } catch (e) {
-      console.log(`Network Error: ${e.message}`);
-    }
+  async function existingUserFlow() {
+    // or update the user's buddy by calling the backend
+    alert("You already have a buddy saved!");
+    navigate("/userpokemon");
   }
 
-  async function createUserPokemon(buddyId, newUserID) {
-    try {
-      const response = await fetch("/api/userpokemon", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: newUserID,
-          pokemon_id: buddyId,
-        }),
-      });
-      if (response.ok) {
-        await response.json();
-      } else {
-        console.log(response);
-        console.log(`Server Error ${response.status} ${response.statusText}`);
-      }
-    } catch (e) {
-      console.log(`Network Error: ${e.message}`);
-    }
-  }
-
-  async function login(email, password) {
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+  async function newUserFlow() {
+    const user = await backendCreateUser({
+      name,
+      email,
+      password,
     });
-
-    if (!response.ok) {
-      throw new Error("Login failed");
-    }
-
-    const body = await response.text();
-    const data = JSON.parse(body);
-
-    console.log("login successful:", data);
-
-    // Save the token in the local storage
-    localStorage.setItem("token", data.token);
+    await backendCreateUserPokemon(user.id, pokebud.pokeid);
+    const { token } = await backendAuthLogin({ email, password });
+    saveSession(token);
+    setSavePokebud(true);
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const userId = await createUser(email, password);
-    await createUserPokemon(pokebud.pokeid, userId);
-    await login(email, password);
-    setSavePokebud(true);
-    console.log("name", name);
-    console.log("pokebud", pokebud.pokeid);
-    console.log("userID", userId);
+    if (hasSession()) {
+      await existingUserFlow();
+    } else {
+      await newUserFlow();
+    }
   };
 
   return (

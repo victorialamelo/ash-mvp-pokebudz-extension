@@ -1,39 +1,23 @@
 import { useNavigate } from "react-router";
 
+import { backendAuthLogin } from "../backend";
+import { saveSession } from "../session";
+
 function LoginPage() {
   const navigate = useNavigate();
 
   // form action handles the login form submission
-
   async function handleLogin(formData) {
-    try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.get("email"),
-          password: formData.get("password"),
-        }),
-      });
+    const credentials = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
 
-      if (!response.ok) {
-        throw new Error("Login failed");
-      }
+    const { token } = await backendAuthLogin(credentials);
 
-      const body = await response.text();
-      const data = JSON.parse(body);
+    saveSession(token);
 
-      console.log("login successful:", data);
-
-      // save the token in the local storage
-      localStorage.setItem("token", data.token);
-
-      navigate(`/userpokemon`);
-    } catch (e) {
-      console.log(e);
-    }
+    navigate(`/userpokemon`);
   }
 
   return (

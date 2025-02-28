@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { jwtDecode, InvalidTokenError } from "jwt-decode"; // https://www.npmjs.com/package/jwt-decode
-// import html2canvas from "html2canvas";
+import {
+  hasSession,
+  getCurrentSession,
+  deleteCurrentSession,
+} from "../session";
+import {
+  backendGetUser,
+  backendGetUserPokemon,
+  externalGetPokemonDetails,
+} from "../backend";
 
 function AdoptedPokemonPage() {
   const [adoptedPokemon, setAdoptedPokemon] = useState(null); // Store the single adopted Pokémon
@@ -10,94 +18,35 @@ function AdoptedPokemonPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchAdoptedPokemon(); // fetch adopted Pokémon and user name
+    if (hasSession()) {
+      fetchAdoptedPokemon(getCurrentSession());
+    } else {
+      alert("You need to log in first!");
+      navigate("/");
+    }
   }, []);
 
   // fetch adopted Pokémon for the logged-in user_id and user name
-  const fetchAdoptedPokemon = async () => {
+  const fetchAdoptedPokemon = async ({ userId }) => {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("You need to log in first!");
-        navigate("/");
-        return;
-      }
+      const { name } = await backendGetUser(userId);
+      setUserName(name);
 
-      const tokenPayload = jwtDecode(token);
-      const userId = tokenPayload.user_id;
-      if (!userId)
-        throw new InvalidTokenError("Invalid token: user_id missing");
-
-      await fetchUserName(userId); // fetch user name
-
-      const response = await fetch(`/api/userpokemon/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (!response.ok) throw new Error("Failed to fetch adopted Pokémon");
-
-      const data = await response.json();
-      const pokemon = data[0]; // for now, assuming only one Pokémon will be displayed from the data array
+      const pokemon = await backendGetUserPokemon(userId);
       setAdoptedPokemon(pokemon);
-      fetchPokemonDetails(pokemon.pokemon_id);
+
+      const details = await externalGetPokemonDetails(pokemon.pokemon_id);
+      setPokemonDetails(details);
     } catch (error) {
       console.error("Error fetching adopted Pokémon:", error);
       alert("An error occurred while fetching your Pokémon.");
     }
   };
 
-  // fetch user name using user_id
-  const fetchUserName = async (userId) => {
-    try {
-      const response = await fetch(`/api/users/${userId}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch user data");
-      }
-
-      const data = await response.json();
-      setUserName(data.name || "Unknown User"); // or...if name is null
-    } catch (error) {
-      console.error("Error fetching user name:", error);
-      setUserName("Unknown User");
-    }
-  };
-
-  // fetch Pokémon details from PokeAPI website
-  const fetchPokemonDetails = async (pokemonId) => {
-    try {
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
-      );
-      if (!response.ok) throw new Error("Failed to load Pokémon details");
-
-      const data = await response.json();
-      setPokemonDetails(data);
-    } catch (error) {
-      console.error("Error loading Pokémon details:", error);
-      alert("Sorry, we could not load your Pokémon details this time.");
-    }
-  };
-
   // logout function
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    deleteCurrentSession();
     navigate("/");
-  };
-
-  const downloadAdoptionCertificate = () => {
-    navigator.share({
-      url: "https://pokebudz-ash.com",
-      title:
-        "Check out my Poke Buddy! Want to find out yours? Visit Pokebudz and take the Quiz now ⚡",
-    });
-  };
-
-  const shareWithFriend = () => {
-    navigator.share({
-      url: "https://pokebudz-ash.com",
-      title:
-        "Check out my Poke Buddy! Want to find out yours? Visit Pokebudz and take the Quiz now ⚡",
-    });
   };
 
   return (
@@ -151,15 +100,6 @@ function AdoptedPokemonPage() {
       )}
       <button className="btn btn-danger mt-3" onClick={handleLogout}>
         Logout
-      </button>
-      <button
-        className="btn btn-danger mt-3"
-        onClick={downloadAdoptionCertificate}
-      >
-        Download adoption certificate
-      </button>
-      <button className="btn btn-danger mt-3" onClick={shareWithFriend}>
-        Share it with a friend!
       </button>
     </div>
   );
