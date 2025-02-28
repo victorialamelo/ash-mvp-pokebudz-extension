@@ -51,15 +51,19 @@ function AdoptedPokemonPage() {
 
   return (
     <div className="Content">
-      <h1>Adopted Pokémon</h1>
+      <h1>Adopted Pokébud</h1>
       <p>Hello, {userName}!</p>
+      <h5>
+        Hear your Pokébud's unique cry and discover all about its powers and
+        traits!
+      </h5>
       {adoptedPokemon && pokemonDetails ? (
         <div className="pokemon-card">
-          <h2>
+          <h1>
             #{pokemonDetails.id} {pokemonDetails.name}
-          </h2>
+          </h1>
           <img
-            style={{ width: "150px", aspectRatio: "1" }}
+            style={{ width: "140px", aspectRatio: "1" }}
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${pokemonDetails.id}.gif`}
             alt={pokemonDetails.name}
           />

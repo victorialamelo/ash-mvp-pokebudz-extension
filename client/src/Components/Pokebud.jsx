@@ -56,7 +56,7 @@ export default function Pokebud() {
     <>
       <Confetti width={width} height={height} />
 
-      <h1>{`${name}'s Pokebud`}</h1>
+      <h1>{`${name}'s Pokébud`}</h1>
 
       <div className="dialogue">
         <ReactTyped
@@ -68,7 +68,7 @@ export default function Pokebud() {
           strings={[
             `WOOHOOO! Congratulations! ${capitalize(
               pokebud.pokename
-            )} is your new buddy!`,
+            )} is your new buddy! Enter your email below and create a password if you want to learn more about this Pokémon.`,
           ]}
           onComplete={() => setShowPokebud(true)}
         />
@@ -79,6 +79,7 @@ export default function Pokebud() {
             </div>
           </div>
         )}
+
         {savePokebud && (
           <ReactTyped
             startWhenVisible
@@ -89,7 +90,7 @@ export default function Pokebud() {
             strings={[
               `<p>${capitalize(
                 pokebud.pokename
-              )} is now saved as your buddy with your email address and password!</p>`,
+              )} is now saved as your buddy!</p>`,
             ]}
             onComplete={() => setShowPokebud(true)}
           />

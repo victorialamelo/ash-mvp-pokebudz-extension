@@ -1,6 +1,6 @@
 export const QuestionBank = [
     {   // TYPE https://pokeapi.co/api/v2/type/
-        prompt: (name) => `<p>Alright, ${name}, let’s start strong—what’s your life philosophy?</p>`,
+        prompt: (name) => `<p>Alright, ${name}, let's start strong—what's your life philosophy?</p>`,
         type: "multiple-choice",
         key: "type2",
         options: [
@@ -11,7 +11,7 @@ export const QuestionBank = [
         ]
     },
     {   // SHAPE https://pokeapi.co/api/v2/pokemon-shape
-        prompt: (name) => `Excellente, thats a great approach to life. Next question ${name}  <p>How would your friends describe you?</p>`,
+        prompt: (name) => `Excellent, that's a great approach to life. Next question ${name}  <p>How would your friends describe you?</p>`,
         type: "multiple-choice",
         key: "shape",
         options: [

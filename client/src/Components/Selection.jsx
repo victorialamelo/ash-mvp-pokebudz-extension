@@ -29,7 +29,7 @@ export default function Matches() {
           loop={false}
           showCursor={false}
           strings={[
-            `${name} here are your matches! So which one will you call your best bud for life?`,
+            `${name}, here are your matches! So which one will you call your best bud for life?`,
           ]}
           onComplete={() => setDisplayBuddys(true)}
         />
