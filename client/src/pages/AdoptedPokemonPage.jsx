@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import {
   hasSession,
   getCurrentSession,
@@ -53,15 +53,15 @@ function AdoptedPokemonPage() {
     <div className="Content">
       <h1>Adopted Pokébud</h1>
       <p>Hello, {userName}!</p>
-      <h5>
+      <h3>
         Hear your Pokébud's unique cry and discover all about its powers and
         traits!
-      </h5>
+      </h3>
       {adoptedPokemon && pokemonDetails ? (
         <div className="pokemon-card">
-          <h1>
+          <h4 className="pokemon-name-details">
             #{pokemonDetails.id} {pokemonDetails.name}
-          </h1>
+          </h4>
           <img
             style={{ width: "140px", aspectRatio: "1" }}
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${pokemonDetails.id}.gif`}
@@ -102,6 +102,13 @@ function AdoptedPokemonPage() {
       ) : (
         <p>Loading Pokémon details...</p>
       )}
+      <section>
+        <Link to="./certificate">
+          <button className="btn btn-danger mt-3">
+            Pokébud Adoption Certificate
+          </button>
+        </Link>
+      </section>
       <button className="btn btn-danger mt-3" onClick={handleLogout}>
         Logout
       </button>
