@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { jwtDecode, InvalidTokenError } from "jwt-decode"; // https://www.npmjs.com/package/jwt-decode
-import html2canvas from "html2canvas";
+// import html2canvas from "html2canvas";
 
 function AdoptedPokemonPage() {
   const [adoptedPokemon, setAdoptedPokemon] = useState(null); // Store the single adopted Pokémon
@@ -84,13 +84,13 @@ function AdoptedPokemonPage() {
     navigate("/");
   };
 
-  // const downloadAdoptionCertificate = () => {
-  //   navigator.share({
-  //     url: "https://pokebudz-ash.com",
-  //     title:
-  //       "Check out my Poke Buddy! Want to find out yours? Visit Pokebudz and take the Quiz now ⚡",
-  //   });
-  // };
+  const downloadAdoptionCertificate = () => {
+    navigator.share({
+      url: "https://pokebudz-ash.com",
+      title:
+        "Check out my Poke Buddy! Want to find out yours? Visit Pokebudz and take the Quiz now ⚡",
+    });
+  };
 
   const shareWithFriend = () => {
     navigator.share({
@@ -114,6 +114,13 @@ function AdoptedPokemonPage() {
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${pokemonDetails.id}.gif`}
             alt={pokemonDetails.name}
           />
+
+          <audio
+            controls
+            style={{ colorScheme: "dark" }}
+            src={`https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokemonDetails.id}.ogg`}
+          ></audio>
+
           <div className="pokemon-details">
             <p>
               <strong>Name:</strong> {pokemonDetails.name}
@@ -145,12 +152,12 @@ function AdoptedPokemonPage() {
       <button className="btn btn-danger mt-3" onClick={handleLogout}>
         Logout
       </button>
-      {/* <button
+      <button
         className="btn btn-danger mt-3"
         onClick={downloadAdoptionCertificate}
       >
         Download adoption certificate
-      </button> */}
+      </button>
       <button className="btn btn-danger mt-3" onClick={shareWithFriend}>
         Share it with a friend!
       </button>
