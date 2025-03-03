@@ -36,17 +36,14 @@ function LoginPage() {
           placeholder="Password"
           required
         />
-        <div className="d-flex gap-2 justify-content-center">
+        <div style={{ padding: "10px" }}>
           <button type="submit" className="btn btn-primary">
             Log in
           </button>
         </div>
       </form>
 
-      <button
-        className="btn btn-outline-dark ml-2"
-        onClick={() => navigate("/")}
-      >
+      <button className="btn btn-primary" onClick={() => navigate("/")}>
         Back
       </button>
     </div>
