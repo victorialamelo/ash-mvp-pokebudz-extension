@@ -9,8 +9,10 @@ import {
   backendCreateUser,
   backendCreateUserPokemon,
   backendAuthLogin,
+  backendGetUserPokemon,
+  backendDeleteUserPokemon,
 } from "../backend";
-import { hasSession, saveSession } from "../session";
+import { hasSession, saveSession, getCurrentSession } from "../session";
 
 import "../App.css";
 
@@ -21,17 +23,14 @@ export default function Pokebud() {
   const [password, setPassword] = useState("");
   const [showPokebud, setShowPokebud] = useState(false);
   const [savePokebud, setSavePokebud] = useState(false);
+  const [isFirstSave, setIsFirstSave] = useState(false);
+
   const navigate = useNavigate();
 
   const capitalize = (name) => name.charAt(0).toUpperCase() + name.slice(1);
 
-  async function existingUserFlow() {
-    // or update the user's buddy by calling the backend
-    alert("You already have a buddy saved!");
-    navigate("/userpokemon");
-  }
-
-  async function newUserFlow() {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     const user = await backendCreateUser({
       name,
       email,
@@ -41,16 +40,28 @@ export default function Pokebud() {
     const { token } = await backendAuthLogin({ email, password });
     saveSession(token);
     setSavePokebud(true);
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (hasSession()) {
-      await existingUserFlow();
-    } else {
-      await newUserFlow();
-    }
+    setIsFirstSave(true); // mark as first-time save
   };
+
+  async function replacePokemon(event) {
+    event.preventDefault();
+
+    // get the userId from the current session
+    const { userId } = getCurrentSession();
+
+    // fetch the current user's Pokémon
+    const currentPokemon = await backendGetUserPokemon(userId);
+
+    // delete the old Pokémon
+    await backendDeleteUserPokemon(currentPokemon.id);
+
+    // associate the new Pokémon with the user
+    await backendCreateUserPokemon(userId, pokebud.pokeid);
+
+    // update the UI state to reflect the changes
+    setSavePokebud(true);
+    navigate("/userpokemon");
+  }
 
   return (
     <>
@@ -66,12 +77,17 @@ export default function Pokebud() {
           loop={false}
           showCursor={false}
           strings={[
-            `WOOHOOO! Congratulations! ${capitalize(
-              pokebud.pokename
-            )} is your new buddy! Enter your email below and create a password if you want to learn more about this Pokémon.`,
+            !hasSession() || isFirstSave
+              ? `WOOHOOO! Congratulations! ${capitalize(
+                  pokebud.pokename
+                )} is your new buddy! Enter your email below and create a password if you want to explore more about this Pokémon.`
+              : `Looks like you already have a Pokébud! Would you like to replace it with ${capitalize(
+                  pokebud.pokename
+                )}?`,
           ]}
           onComplete={() => setShowPokebud(true)}
         />
+
         {showPokebud && (
           <div className="myBuddy">
             <div key={pokebud.pokeid} className="pokemon-card">
@@ -90,35 +106,45 @@ export default function Pokebud() {
             strings={[
               `<p>${capitalize(
                 pokebud.pokename
-              )} is now saved as your buddy!</p>`,
+              )} is now saved as your buddy with your email address and password!</p>`,
             ]}
             onComplete={() => setShowPokebud(true)}
           />
         )}
       </div>
 
-      {showPokebud && !savePokebud && (
-        <form className="transition-form" onSubmit={handleSubmit}>
-          <label>Email address</label>
-          <input
-            type="email"
-            placeholder="email address"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+      {showPokebud &&
+        !savePokebud &&
+        (hasSession() ? (
+          <>
+            <form className="transition-form" onSubmit={replacePokemon}>
+              <button type="submit">Replace my existing buddy</button>
+            </form>
+          </>
+        ) : (
+          <>
+            <form className="transition-form" onSubmit={handleSubmit}>
+              <label>Email address</label>
+              <input
+                type="email"
+                placeholder="email address"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
-          <label>Password</label>
-          <input
-            type="password"
-            placeholder="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button type="submit">Save my buddy</button>
-        </form>
-      )}
+              <label>Password</label>
+              <input
+                type="password"
+                placeholder="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button type="submit">Save my buddy</button>
+            </form>
+          </>
+        ))}
 
       {savePokebud && (
         <button

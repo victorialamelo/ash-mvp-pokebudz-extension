@@ -109,6 +109,11 @@ function AdoptedPokemonPage() {
           </button>
         </Link>
       </section>
+      <section>
+        <Link to="../start">
+          <button className="btn btn-danger mt-3">Retake the Quiz</button>
+        </Link>
+      </section>
       <button className="btn btn-danger mt-3" onClick={handleLogout}>
         Logout
       </button>

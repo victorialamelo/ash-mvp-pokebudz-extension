@@ -1,4 +1,23 @@
+// API CLIENT FUNCTIONS - making requests to backend APIs
+
 import { getAuthHeader } from "./session";
+
+export async function backendAuthLogin(credentials) {
+  const response = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(credentials),
+  });
+  if (!response.ok) {
+    throw new Error("Login failed");
+  }
+
+  const data = await response.json();
+
+  return data;
+}
 
 export async function backendGetUser(userId) {
   const response = await fetch(`/api/users/${userId}`);
@@ -23,23 +42,6 @@ export async function backendGetUserPokemon(userId) {
   const data = await response.json();
 
   return data[0];
-}
-
-export async function backendAuthLogin(credentials) {
-  const response = await fetch("/api/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(credentials),
-  });
-  if (!response.ok) {
-    throw new Error("Login failed");
-  }
-
-  const data = await response.json();
-
-  return data;
 }
 
 export async function backendCreateUser(inputs) {
@@ -84,4 +86,15 @@ export async function externalGetPokemonDetails(pokemonId) {
   const data = await response.json();
 
   return data;
+}
+
+export async function backendDeleteUserPokemon(pokemonId) {
+  const response = await fetch(`/api/userpokemon/${pokemonId}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("UserPokemon creation failed");
+  }
+
+  await response.json();
 }
