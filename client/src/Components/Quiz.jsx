@@ -88,7 +88,7 @@ export default function Quiz() {
             loop={false}
             showCursor={false}
             strings={[
-              !hasSession()
+              hasSession()
                 ? ` Welcome, ${name}!`
                 : `<p>Huh. ${name}. Bold choice. But hey, I guess you didn’t pick it. Welcome, ${name}!</p>
                       <p>Now, to find your perfect Pokébud, I just need to ask a few crucial, highly scientific questions.</p>`,
