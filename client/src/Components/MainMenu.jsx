@@ -1,13 +1,27 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ReactTyped } from "react-typed"; // React Typed library used to animate dialogue
 import { QuizContext } from "../Helpers/Contexts";
 import "../App.css";
+import { hasSession, getCurrentSession } from "../session";
+import { backendGetUser } from "../backend";
 
 export default function MainMenu() {
   const { setGameState, name, setName } = useContext(QuizContext);
   const [showForm, setShowForm] = useState(false);
 
   const capitalize = (name) => name.charAt(0).toUpperCase() + name.slice(1);
+
+  useEffect(() => {
+    async function check() {
+      if (hasSession()) {
+        const { userId } = getCurrentSession();
+        const user = await backendGetUser(userId);
+        setName(user.name);
+        setGameState("questions");
+      }
+    }
+    check();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

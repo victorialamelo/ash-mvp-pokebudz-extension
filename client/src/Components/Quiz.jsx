@@ -3,6 +3,7 @@ import { ReactTyped } from "react-typed";
 import { QuestionBank } from "../Helpers/QuestionBank";
 import { QuizContext } from "../Helpers/Contexts";
 import "../App.css";
+import { hasSession } from "../session";
 
 export default function Quiz() {
   const { setGameState, name, setAnswers, setMatchingCriteria } =
@@ -87,7 +88,9 @@ export default function Quiz() {
             loop={false}
             showCursor={false}
             strings={[
-              `<p>Huh. ${name}. Bold choice. But hey, I guess you didn’t pick it. Welcome, ${name}!</p>
+              !hasSession()
+                ? ` Welcome, ${name}!`
+                : `<p>Huh. ${name}. Bold choice. But hey, I guess you didn’t pick it. Welcome, ${name}!</p>
                       <p>Now, to find your perfect Pokébud, I just need to ask a few crucial, highly scientific questions.</p>`,
             ]}
             onComplete={() => setDisplayQuestion(true)}
