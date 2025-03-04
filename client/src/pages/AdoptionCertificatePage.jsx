@@ -89,13 +89,16 @@ function AdoptedCertificatePage() {
       </div>
       <footer>Congratulations on your new Pokébud!</footer>
 
-      <button className="btn btn-danger mt-3" onClick={() => window.print()}>
+      <button
+        className="hidden-print btn btn-danger mt-3"
+        onClick={() => window.print()}
+      >
         {" "}
         Share with a friend!
       </button>
       <section className="buttons-position-center">
         <Link to="/userpokemon">
-          <button className="btn btn-danger mt-3">Back</button>
+          <button className="hidden-print btn btn-danger mt-3">Back</button>
         </Link>
       </section>
     </div>

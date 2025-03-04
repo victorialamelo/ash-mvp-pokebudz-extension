@@ -2,13 +2,14 @@
   width: 600px;
   margin: 40px auto;
   padding: 20px;
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
   border: 5px solid #a5483c;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-family: "Arial", sans-serif;
   text-align: center;
   background-size: cover;
+  /* background-color: rgb(82, 237, 201); */
 }
 
 .header-container {
@@ -16,6 +17,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  line-height: 30px;
 }
 
 header {
@@ -28,9 +30,10 @@ header {
 
 .certificate-content {
   padding: 5px;
-  background-color: #f9f9f9;
+  background-color: rgb(255, 233, 205);
   border-radius: 10px;
   margin-bottom: 20px;
+  line-height: 25px;
 }
 
 .certificate-content p {
@@ -68,4 +71,12 @@ footer {
   font-weight: bold;
   margin-top: 20px;
   margin-bottom: 20px;
+  line-height: 25px;
+}
+
+/* hiding footer buttons when generating PDF */
+@media print {
+  .hidden-print {
+    display: none !important;
+  }
 }
