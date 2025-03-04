@@ -43,7 +43,21 @@ function AdoptedCertificatePage() {
 
   return (
     <div className="certificate-container">
-      <header>Pokémon Adoption Certificate</header>
+      <div className="header-container">
+        <img
+          className="pokeball-img"
+          src={`https://i.pinimg.com/236x/f6/93/f2/f693f22c35a0e2d91e2e22389a36ed5b.jpg`}
+          alt="pokeball-img"
+          style={{ width: "70px" }}
+        />
+        <header>Pokémon Adoption Certificate</header>
+        <img
+          className="pokeball-img"
+          src={`https://i.pinimg.com/236x/f6/93/f2/f693f22c35a0e2d91e2e22389a36ed5b.jpg`}
+          alt="pokeball-img"
+          style={{ width: "70px" }}
+        />
+      </div>
       <div className="certificate-content">
         Your unique personality and lifestyle have made a perfect match with
         this amazing Pokémon. <br /> <br /> This certificate proudly
