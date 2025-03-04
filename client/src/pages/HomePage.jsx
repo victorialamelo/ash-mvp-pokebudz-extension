@@ -6,7 +6,7 @@ function HomePage() {
 
   return (
     <div className="Content">
-      <h1>Welcome to the Pokebudz!</h1>
+      <h1>Welcome to Pokebudz!</h1>
       <h3>
         Eager to meet your perfect Pokémon partner? Take the quiz now and find
         your new adventure buddy!
