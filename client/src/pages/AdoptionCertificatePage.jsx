@@ -22,6 +22,14 @@ function AdoptedCertificatePage() {
       alert("You need to log in first!");
       navigate("/");
     }
+
+    // event listener for color picker
+    const colorInput = document.getElementById("bg-color");
+    colorInput.addEventListener("input", handleColorChange);
+
+    return () => {
+      colorInput.removeEventListener("input", handleColorChange);
+    };
   }, []);
 
   // fetch adopted Pokémon for the logged-in user_id and user name
@@ -41,6 +49,13 @@ function AdoptedCertificatePage() {
     }
   };
 
+  const handleColorChange = (event) => {
+    const newColor = event.target.value;
+    document.querySelector(".certificate-content").style.backgroundColor =
+      newColor;
+    document.querySelector("header").style.color = newColor;
+  };
+
   return (
     <div className="certificate-container">
       <div className="header-container">
@@ -58,6 +73,12 @@ function AdoptedCertificatePage() {
           style={{ width: "70px" }}
         />
       </div>
+
+      <div className="hidden-print color-selector">
+        <label htmlFor="bg-color">Choose Background Color:</label>
+        <input type="color" id="bg-color" name="bg-color" />
+      </div>
+
       <div className="certificate-content">
         Your unique personality and lifestyle have made a perfect match with
         this amazing Pokémon. <br /> <br /> This certificate proudly
@@ -87,6 +108,7 @@ function AdoptedCertificatePage() {
           <p>Loading Pokémon details...</p>
         )}
       </div>
+
       <footer>Congratulations on your new Pokébud!</footer>
 
       <button
