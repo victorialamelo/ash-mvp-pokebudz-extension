@@ -85,7 +85,10 @@ function AdoptedCertificatePage() {
         acknowledges that {userName} has officially adopted:
         {adoptedPokemon && pokemonDetails ? (
           <div>
-            <h4>{pokemonDetails.name}</h4>
+            <h4>
+              {pokemonDetails.name[0].toUpperCase() +
+                pokemonDetails.name.slice(1)}
+            </h4>
             <img
               className="pokemon-certificate-img"
               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonDetails.id}.png`}

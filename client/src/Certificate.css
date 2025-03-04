@@ -32,6 +32,7 @@ header {
   border-radius: 10px;
   margin-bottom: 20px;
   line-height: 25px;
+  padding-top: 25px;
 }
 
 .certificate-content p {
@@ -41,7 +42,7 @@ header {
 }
 
 h4 {
-  font-size: 24px;
+  font-size: 25px;
   color: #b62525;
   font-weight: bold;
 }
